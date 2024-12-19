@@ -7,42 +7,16 @@ import Home from './component/home'
 import Teacher from './component/Teacher'
 
 function App() {
-  
-
-  const ProtectedRoute = ({value})=>{
-    const {token} = useSelector((state)=>state.auth)
-    if(token === null){
-      return <Navigate to='/login' />
-    }
-    const decoded = jwtDecode(token)
-    return <>{decoded.role === value ? <Outlet /> : <Navigate to="/login" />}</>
-
-  }
-
-  const RestrictedRoute = ()=>{
-    const {token} = useSelector((state)=>state.auth)
-    // if(token == false){
-    //   return <Navigate to='/home' />
-    // }
-    return <>{ token === null ? <Outlet /> : <Navigate to='/home' />}</>
-  }
+  const [count, setCount] = useState(0)
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<RestrictedRoute />}>
-          <Route path='/login' element={<Login/>}/>
-        </Route>
+    <>
+    <div className='m-5 p-5'>
 
-        <Route element={<ProtectedRoute value={3}/>}>
-          <Route path='/home' element={<Home/>}/>
-        </Route>
-        <Route element={<ProtectedRoute value={2} />}>
-          <Route path='/teacher' element={<Teacher/>}/>
-        </Route>
-      </Routes>
-    </BrowserRouter>
+      <p className=' text-pretty'>helll  </p>
+    </div>
+    </>
   )
 }
 
-export default App
+export default App;
