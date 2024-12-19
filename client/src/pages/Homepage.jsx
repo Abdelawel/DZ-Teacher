@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Header from "../component/Header";
+import Footer from "../component/Footer";
 import LeftArrow from '../assets/LeftArrow.png';
 import RightArrow from '../assets/RightArrow.png';
 import HomepageTutor from '../assets/HomepageTutor.png';

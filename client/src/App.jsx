@@ -3,12 +3,9 @@ import './App.css'
 import Login from './component/Login'
 import { useSelector } from 'react-redux'
 import { jwtDecode } from 'jwt-decode'
-import Home from './component/home'
+import Home from './pages/Homepage'
 import Teacher from './component/Teacher'
-import { useState } from 'react';
-import Homepage from './pages/Homepage'; // Import Homepage
-import './App.css';
-import './index.css';
+import Homepage from './pages/Homepage'
 
 function App() {
   
@@ -32,22 +29,20 @@ function App() {
   }
 
   return (
+    // <Homepage/>
     <BrowserRouter>
       <Routes>
         <Route element={<RestrictedRoute />}>
-          <Route path='/login' element={<Login/>}/>
+          <Route path='/login' element={<Homepage/>}/>
         </Route>
 
         <Route element={<ProtectedRoute value={3}/>}>
-          <Route path='/home' element={<Home/>}/>
+          <Route path='/home' element={<Homepage/>}/>
           <Route path='/teacher' element={<Teacher/>}/>
         </Route>
       </Routes>
     </BrowserRouter>
   )
-    <Homepage/>
-    
-  );
 }
 
-export default App;
+export default App
