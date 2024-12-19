@@ -10,7 +10,6 @@ import EnglishCourseImage from '../assets/English.jpg';
 import HistoryCourseImage from '../assets/History.jpg';
 import GeoCourseImage from '../assets/geo.webp';
 import PhysicsCourseImage from '../assets/physics.webp';
-import Studentpic from '../assets/Rectangle 6.png';
 
 const courses = [
   { title: "Math Course", price: "1500 DA", image: MathCourseImage },
@@ -52,11 +51,10 @@ const Homepage = () => {
             </div>
           </div>
           <div className="lg:w-1/2 mt-8 lg:mt-0">
-          <div className="relative">
-  <img src={Studentpic} alt="Student at computer" className="rounded-lg shadow-lg" />
-  <div className="absolute top-4 left-4 bg-yellow-400 w-12 h-12 rounded-full"></div>
-</div>
-
+            <div className="relative">
+              <img src="/Rectangle 6.png" alt="Student at computer" className="rounded-lg shadow-lg" />
+              <div className="absolute top-4 left-4 bg-yellow-400 w-12 h-12 rounded-full"></div>
+            </div>
           </div>
         </div>
       </section>
