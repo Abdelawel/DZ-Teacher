@@ -5,6 +5,10 @@ import { useSelector } from 'react-redux'
 import { jwtDecode } from 'jwt-decode'
 import Home from './component/home'
 import Teacher from './component/Teacher'
+import { useState } from 'react';
+import Homepage from './pages/Homepage'; // Import Homepage
+import './App.css';
+import './index.css';
 
 function App() {
   
@@ -41,6 +45,9 @@ function App() {
       </Routes>
     </BrowserRouter>
   )
+    <Homepage/>
+    
+  );
 }
 
-export default App
+export default App;
