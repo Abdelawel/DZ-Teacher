@@ -3,20 +3,45 @@ import './App.css'
 import Login from './component/Login'
 import { useSelector } from 'react-redux'
 import { jwtDecode } from 'jwt-decode'
-import Home from './component/home'
 import Teacher from './component/Teacher'
+import Homepage from './pages/Homepage'
 
 function App() {
-  const [count, setCount] = useState(0)
+  
+
+  const ProtectedRoute = ({value})=>{
+    const {token} = useSelector((state)=>state.auth)
+    if(!token){
+      return <Navigate to='/login' />
+    }
+    const decoded = jwtDecode(token)
+    return <>{decoded.role === value ? <Outlet /> : <Navigate to="/login" />}</>
+
+  }
+
+  const RestrictedRoute = ()=>{
+    const {token} = useSelector((state)=>state.auth)
+    // if(token == false){
+    //   return <Navigate to='/home' />
+    // }
+    return <>{ !token ? <Outlet /> : <Navigate to='home' />}</>
+  }
 
   return (
-    <>
-    <div className='m-5 p-5'>
+    // <Homepage/>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<RestrictedRoute />}>
+          <Route path='/login' element={<Homepage/>}/>
+        </Route>
 
-      <p className=' text-pretty'>helll  </p>
-    </div>
-    </>
+        <Route element={<ProtectedRoute value={3}/>}>
+          <Route path='' element={<Homepage/>}/>
+          <Route path='/teacher' element={<Homepage/>}/>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 
-export default App;
+export default App
