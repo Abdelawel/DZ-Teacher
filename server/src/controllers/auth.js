@@ -2,8 +2,58 @@ const db = require ('../db')
 const {hash} = require('bcryptjs')
 const {sign} = require('jsonwebtoken')
 const {SECRET} = require('../constants')
-const jwt = require('jsonwebtoken');
 
+
+exports.getResource = async (req, res)=>{
+  try {
+    const {rows} = await db.query('select * from resource')
+    return res.status(200).json({
+      data : {
+        resource : rows
+      }
+    })
+  } catch (error) {
+    return res.status(500).json({
+      error : error.message,
+  })
+  }
+}
+
+exports.postResource = async (req, res)=>{
+  try {
+    
+    const isModule = await db.query('select * from module where module_id = $1', [req.body.resource_module])
+    if(isModule.rows.length === 0 ){
+      return res.status(404).json({error : 'no such module exist'})
+    }
+
+    const isTeacher = await db.query('select * from users where users_id = $1 and users_role = 2', [req.body.uploaded_by])
+    if(isTeacher.rows.length === 0 ){
+      return res.status(404).json({error : 'no such teacher exist'})
+    }
+
+    
+    const result = await db.query('insert into resource (resource_title, resource_description, pdf_link, resource_module, resource_price, uploaded_by, resource_status) values ($1,$2,$3,$4,$5,$6,$7) returning *', [
+      req.body.resource_title,
+      req.body.resource_description,
+      req.body.pdf_link,
+      req.body.resource_module,
+      req.body.resource_price,
+      req.body.uploaded_by,
+      req.body.resource_status
+    ])
+    return res.status(201).json({
+      success: true,
+      data :{
+        resource : result.rows[0],
+      }
+    })
+  } catch (error) {
+    return res.status(500).json({
+      error : error.message,
+  })
+  }
+}
 
 
 exports.register = async (req, res) => {
@@ -76,3 +126,5 @@ exports.login = async (req, res) => {
         })
     }
 }
+
+
