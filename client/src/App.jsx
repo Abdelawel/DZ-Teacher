@@ -1,10 +1,10 @@
 import { BrowserRouter, Navigate, Routes, Route, Outlet, useLocation, useParams} from 'react-router-dom'
 import './App.css'
-import Login from './component/Login'
 import { useSelector } from 'react-redux'
 import { jwtDecode } from 'jwt-decode'
 import Home from './component/home'
 import Teacher from './component/Teacher'
+import Login from './Login/login'
 
 function App() {
   
@@ -33,7 +33,7 @@ function App() {
         <Route element={<RestrictedRoute />}>
           <Route path='/login' element={<Login/>}/>
         </Route>
-
+<Login/>
         <Route element={<ProtectedRoute value={3}/>}>
           <Route path='/home' element={<Home/>}/>
           <Route path='/teacher' element={<Teacher/>}/>
