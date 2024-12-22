@@ -80,7 +80,8 @@ const Register = () => {
                         <div className=" w-[454px] h-[49px] mt-[52px] text-[#5B5B5B] " >
                                 ya amjed direlna kech heja meaningfull lah yosstrek
                         </div>
-                        <form className=" w-[435px] ">
+                        <div className=" overflow-scroll h-[500px] ">
+                        <form className=" w-[435px]  ">
                         <div className=" flex justify-center items-center ">
                         <div className="">
                         <div className=" w-[210px] h-[36px] mt-[42px] font-bold " >
@@ -149,10 +150,77 @@ const Register = () => {
                                     
                                 />
                         </div>
+                        <div className=" w-[435px] h-[36px] mt-[30px] font-bold " >
+                                Address
+                        </div>
+                        <div className=" w-[435px] h-[54px]  " >
+                                <input 
+                                    type="text"
+                                    id="address"
+                                    placeholder="Enter your address"
+                                    className="w-full h-full px-5 py-2 border-[2px] border-[#525FE1] rounded-[14px] focus:outline-none focus:ring focus:ring-blue-500"
+                                    
+                                />
+                        </div>
+                        <div className=" w-[435px] h-[36px] mt-[30px] font-bold " >
+                                phone Number
+                        </div>
+                        <div className=" w-[435px] h-[54px]  " >
+                                <input 
+                                    type="tel"
+                                    id="phonenumber"
+                                    placeholder="Enter your password"
+                                    className="w-full h-full px-5 py-2 border-[2px] border-[#525FE1] rounded-[14px] focus:outline-none focus:ring focus:ring-blue-500"
+                                    
+                                />
+                        </div>
+                        <div className=" w-[435px] h-[36px] mt-[30px] font-bold " >
+                                Birthday
+                        </div>
+                        <div className=" w-[435px] h-[54px] flex items-center justify-center " >
+                        <input
+                                    type="number"
+                                    min={1}
+                                    max={31} 
+                                   
+                                    
+                                    placeholder=" Day"
+                                    className="w-[152px] h-[62px] mt-[7px] mr-[15px] px-5 py-2 border-[2px] border-[#525FE1] rounded-[14px] focus:outline-none focus:ring focus:ring-blue-500"/>
+                                    <input 
+                                    type="number"
+                                    min={1}
+                                    max={12}
+                                    id="bmonth"
+                                   
+                                    placeholder=" Month "
+                                    className="w-[152px] h-[62px] mt-[7px] mr-[15px] px-5 py-2 border-[2px] border-[#525FE1] rounded-[14px] focus:outline-none focus:ring focus:ring-blue-500"/>
+                                    <input
+                                    type="number"
+                                    min={1920}
+                                    max={2024} 
+                                    id="byear"
+                                    
+                                    placeholder=" Year "
+                                    className="w-[150px] h-[62px] mt-[7px] px-5 py-2 border-[2px] border-[#525FE1] rounded-[14px] focus:outline-none focus:ring focus:ring-blue-500"/>
+                  
+                        </div>
+                        <div className=" w-[435px] h-[36px] mt-[30px] font-bold " >
+                                Profile Picture
+                        </div>
+                        <div className=" w-[435px] h-[54px] flex items-center justify-center " >
+                                <input 
+                                    type="file"
+                                    id="profilepicture"
+                                    placeholder="Enter your profile picture"
+                                    className="w-full h-full px-5 py-2 border-[2px] border-[#525FE1] rounded-[14px] focus:outline-none focus:ring focus:ring-blue-500"
+                                    
+                                />
+                        </div>
                         <div className=" flex justify-center items-center w-[111px] h-[42px] ml-[324px] mt-[25px] ">
                                 <button className=" bg-[#525FE1] text-white  w-[111px] h-[42px] rounded-[5px] " >Register</button>
                         </div>
                         </form>
+                        </div>
                     </div>
                 </div>
             </div>
