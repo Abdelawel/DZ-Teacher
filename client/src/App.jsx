@@ -33,7 +33,7 @@ function App() {
         <Route element={<RestrictedRoute />}>
           <Route path='/login' element={<Login/>}/>
         </Route>
-<Login/>
+
         <Route element={<ProtectedRoute value={3}/>}>
           <Route path='/home' element={<Home/>}/>
           <Route path='/teacher' element={<Teacher/>}/>
