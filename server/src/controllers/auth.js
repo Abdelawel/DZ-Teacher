@@ -55,6 +55,10 @@ exports.postResource = async (req, res)=>{
   }
 }
 
+exports.deleteResource = async (req,res) => {
+
+}
+
 
 exports.register = async (req, res) => {
     // const { email, password } = req.body
@@ -91,7 +95,7 @@ exports.login = async (req, res) => {
     let users = req.users
   
     let payload = {
-      id: users.user_id,
+      id: users.users_id,
       email: users.users_email,
       role: users.users_role
     }

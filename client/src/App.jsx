@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 import { jwtDecode } from 'jwt-decode'
 import Home from './component/home'
 import Teacher from './component/Teacher'
+import Register from './component/Register'
 
 function App() {
   
@@ -32,6 +33,7 @@ function App() {
       <Routes>
         <Route element={<RestrictedRoute />}>
           <Route path='/login' element={<Login/>}/>
+          <Route path='/register' element={<Register/>}/>
         </Route>
 
         <Route element={<ProtectedRoute value={3}/>}>
