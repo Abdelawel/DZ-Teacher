@@ -16,7 +16,7 @@ import { jwtDecode } from 'jwt-decode'
             // state.role = action.payload.role
         }, 
         logout : (state, action)=>{
-            state.token = false
+            state.token = null
             // state.role = null
         }
     }

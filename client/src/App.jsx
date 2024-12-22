@@ -11,7 +11,7 @@ function App() {
 
   const ProtectedRoute = ({value})=>{
     const {token} = useSelector((state)=>state.auth)
-    if(!token){
+    if(token === null){
       return <Navigate to='/login' />
     }
     const decoded = jwtDecode(token)
@@ -24,7 +24,7 @@ function App() {
     // if(token == false){
     //   return <Navigate to='/home' />
     // }
-    return <>{ !token ? <Outlet /> : <Navigate to='home' />}</>
+    return <>{ token === null ? <Outlet /> : <Navigate to='/home' />}</>
   }
 
   return (
@@ -36,6 +36,8 @@ function App() {
 
         <Route element={<ProtectedRoute value={3}/>}>
           <Route path='/home' element={<Home/>}/>
+        </Route>
+        <Route element={<ProtectedRoute value={2} />}>
           <Route path='/teacher' element={<Teacher/>}/>
         </Route>
       </Routes>
