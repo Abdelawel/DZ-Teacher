@@ -55,8 +55,44 @@ exports.postResource = async (req, res)=>{
   }
 }
 
-exports.deleteResource = async (req,res) => {
+exports.updateResource = async (req,res) => {
+  try {
+    const result = await db.query('update resource set resource_title = $1, resource_description = $2, pdf_link = $3, resource_module = $4, resource_price = $5 where resource_id = $6 returning *;', [
+      req.body.resource_title,
+      req.body.resource_description,
+      req.body.pdf_link,
+      req.body.resource_module,
+      req.body.resource_price,
+      req.params.id
+    ])
 
+    return res.status(200).json({
+      data :{
+        resource : result.rows[0],
+      }
+    })
+  } catch (error) {
+    return res.status(500).json({
+      error : error.message,
+  })
+  }
+}
+
+exports.deleteResource = async (req,res) => {
+  try {
+    const result = await db.query('update resource set resource_status = 2 where resource_id = $1  returning *;', [req.params.id])
+    // console.log(req.params.id)
+    return res.status(201).json({
+      data :{
+        resource : result.rows[0],
+      }
+    })
+
+  } catch (error) {
+    return res.status(500).json({
+      error : error.message,
+  })
+  }
 }
 
 

@@ -19,9 +19,10 @@ const Login = () => {
     
     
     const handleLogin  = async (e) => {
+      e.preventDefault()
       try {
-        const result = await onLogin({users_email :"madi@gmail.com",
-                                      users_password : "abc123"})
+        const result = await onLogin({users_email :email,
+                                      users_password : password})
         console.log(result)
         
         dispatch(login({token:result.data.token}))
@@ -67,13 +68,13 @@ const Login = () => {
                         <div className=" w-[454px] h-[49px] mt-[52px] text-[#5B5B5B]  " >
                                 ya amjed direlna kech heja meaningfull lah yosstrek
                         </div>
-                        <form className="">
+                        <form className="" onSubmit={(e)=>handleLogin(e)}>
                         <div className=" w-[435px] h-[36px] mt-[42px] font-bold " >
                                 Email
                         </div>
                         <div className=" w-[435px] h-[54px]  " >
                                 <input 
-                                    type="text"
+                                    type="email"
                                     id="username"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
@@ -103,7 +104,7 @@ const Login = () => {
                                 <a href="" className="ml-[160px]" >Forgot Password ?</a>
                         </div>
                         <div className=" flex justify-center items-center w-[111px] h-[42px] ml-[324px] mt-[25px] ">
-                                <button className=" bg-[#525FE1] text-white  w-[111px] h-[42px] rounded-[5px] " >Sign In</button>
+                                <button type='submit' className=" bg-[#525FE1] text-white  w-[111px] h-[42px] rounded-[5px] " >Sign In</button>
                         </div>
                         </form>
                     </div>

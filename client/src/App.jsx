@@ -3,7 +3,7 @@ import './App.css'
 import Login from './component/Login'
 import { useSelector } from 'react-redux'
 import { jwtDecode } from 'jwt-decode'
-import Home from './component/home'
+import Home from './component/Home'
 import Teacher from './component/Teacher'
 import Register from './component/Register'
 
@@ -22,26 +22,36 @@ function App() {
 
   const RestrictedRoute = ()=>{
     const {token} = useSelector((state)=>state.auth)
-    // if(token == false){
-    //   return <Navigate to='/home' />
-    // }
-    return <>{ token === null ? <Outlet /> : <Navigate to='/home' />}</>
+    if(token == null){
+      return <Outlet/>
+    }else{
+      const decoded = jwtDecode(token)
+      if(decoded.role === 3){
+        return <Navigate to='/home' />
+      }
+      else if(decoded.role === 2){
+        return <Navigate to='/teacher' />
+      }
+
+    }
+    // return <>{ token === null ? <Outlet /> : <Navigate to='/teacher' />}</>
   }
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<RestrictedRoute />}>
-          <Route path='/login' element={<Login/>}/>
-          <Route path='/register' element={<Register/>}/>
-        </Route>
-
         <Route element={<ProtectedRoute value={3}/>}>
           <Route path='/home' element={<Home/>}/>
         </Route>
         <Route element={<ProtectedRoute value={2} />}>
           <Route path='/teacher' element={<Teacher/>}/>
         </Route>
+        <Route element={<RestrictedRoute />}>
+          <Route path='/login' element={<Login/>}/>
+          <Route path='/register' element={<Register/>}/>
+        </Route>
+
+        
       </Routes>
     </BrowserRouter>
   )
