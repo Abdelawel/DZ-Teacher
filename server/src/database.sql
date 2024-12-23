@@ -6,6 +6,7 @@ create table role (
 -- insert into role (role_id,role_name) values (2,'teacher');
 -- insert into role (role_id,role_name) values (3,'student');
 -- insert into role (role_id,role_name) values (4,'parent');
+
 create table users (
     users_id serial primary key,
     users_name varchar(50) not NULL,
@@ -22,34 +23,35 @@ create table users (
     users_parent int references users(users_id)
 );
 
--- create table teacher (
---     teacher_id int primary key references users(users_id) ON DELETE CASCADE,
---     teacher_description text
--- );
-
-
--- create table student (
---     student_id int primary key references users(users_id) ON DELETE CASCADE
--- );
-
--- create table parent (
---     parent_id int primary key references users(users_id) ON DELETE CASCADE
--- );
-
--- create table admin (
---     admin_id int primary key references users(users_id) ON DELETE CASCADE
--- );
-
 create table level(
     level_id int primary key,
     level_name varchar(50)
-)
+);
+
+-- insert into level (level_id, level_name) values (1, '1AP');
+-- insert into level (level_id, level_name) values (2, '2AP');
+-- insert into level (level_id, level_name) values (3, '3AP');
+-- insert into level (level_id, level_name) values (4, '4AP');
+-- insert into level (level_id, level_name) values (5, '5AP');
+-- insert into level (level_id, level_name) values (6, '1AM');
+-- insert into level (level_id, level_name) values (7, '2AM');
+-- insert into level (level_id, level_name) values (8, '3AM');
+-- insert into level (level_id, level_name) values (9, '4AM');
+-- insert into level (level_id, level_name) values (10, '1AS');
+-- insert into level (level_id, level_name) values (11, '2AS');
+-- insert into level (level_id, level_name) values (12, '3AS');
 
 create table module (
-    module_id int primary key,
+    module_id serial primary key, -- i modify here the type from int to serial
     module_name varchar(100),
     module_level int references level(level_id) ON DELETE CASCADE
 );
+
+-- insert into module (module_name, module_level) values('math',12 );
+-- insert into module (module_name, module_level) values('arab',12 );
+-- insert into module (module_name, module_level) values('english',12 );
+-- insert into module (module_name, module_level) values('math',9 );
+-- insert into module (module_name, module_level) values('arab',7 );
 
 
 create table resource(
@@ -60,31 +62,63 @@ create table resource(
     resource_module int references module(module_id) ON DELETE CASCADE,
     resource_price DECIMAL(10, 2) CHECK (resource_price >= 0),
     uploaded_by int references users(users_id) ON DELETE CASCADE,
+    resource_status int references resource_sts(status_id)
 );
 
-create table payment_resource(
-    resource_key int primary key references resource(resource_id),
-    downloaded_by int primary key references users(users_id),
-    payment_date date DEFAULT CURRENT_DATE
+--alter table resource add column resource_status int references resource_sts(status_id);
+
+create table resource_sts(
+    status_id int primary key,
+    resource_status varchar(50)
 );
+
+-- insert into resource_sts (status_id, resource_status) values(1, 'published');
+-- insert into resource_sts (status_id, resource_status) values(2, 'deleted');
+
+
+CREATE TABLE payment_resource (
+    resource_key INT REFERENCES resource(resource_id),
+    downloaded_by INT REFERENCES users(users_id),
+    payment_date DATE DEFAULT CURRENT_DATE,
+    PRIMARY KEY (resource_key, downloaded_by)
+);
+
+
+--i change the syntax here in payment_resource
+
 
 create table session(
     session_id serial primary key,
     session_title varchar(100) not NULL,
     session_description text, 
     session_attempt int not NUll,
-    session_price DECIMAL(10,2) CHECK(live_course_price >= 0),
+    session_price DECIMAL(10,2) CHECK(session_price >= 0),
+    session_module int references module(module_id),
+    session_status int references session_sts(status_id),
     session_teacher int references users(users_id),
-    session_date DATETIME not NULL,
-    session_duration INTERVAL NOT NULL,
-    session_status int not NULL
+    session_date TIMESTAMP NOT NULL,
+    session_duration INTERVAL NOT NULL
 );
 
-create table payment_session(
-    session_key int primary key references session(session_id),
-    attempted_by int primary key references users(users_id),
-    payment_date date DEFAULT CURRENT_DATE
+--i modify here the table above
+
+create table session_sts(
+    status_id int primary key,
+    session_status varchar(50)
 );
+
+-- insert into session_sts (status_id, session_status) values(1, 'published');
+-- insert into session_sts (status_id, session_status) values(2, 'finished');
+-- insert into session_sts (status_id, session_status) values(3, 'canceled');
+
+create table payment_session(
+    session_key int references session(session_id),
+    attempted_by int references users(users_id),
+    payment_date date DEFAULT CURRENT_DATE,
+    PRIMARY KEY (session_key, attempted_by)
+);
+
+--i change the syntax here
 
 
 create table inscription(
@@ -94,7 +128,8 @@ create table inscription(
     teacher_email varchar(100) unique,
     teacher_password varchar(100) not NULL,
     cv_link varchar(100),
-    teacher_date_of_birth date CHECK (users_date_of_birth <= CURRENT_DATE),
+    teacher_date_of_birth date CHECK (teacher_date_of_birth <= CURRENT_DATE),
+    teacher_status int references inscription_sts(status_id),
     teacher_address varchar(100) DEFAULT '',
     teacher_phone varchar(50) DEFAULT '',
     teacher_image_link varchar(255),
@@ -102,22 +137,38 @@ create table inscription(
     teacher_bank_accout varchar(100)
 );
 
-create table cv{
-    cv_id int primary key,
+
+--i add the atribut status here in the table above
+
+create table inscription_sts(
+    status_id int primary key,
+    teacher_status varchar(20)
+);
+
+-- insert into inscription_sts (status_id, teacher_status) values(1, 'waiting');
+-- insert into inscription_sts (status_id, teacher_status) values(2, 'hired');
+-- insert into inscription_sts (status_id, teacher_status) values(3, 'rejected');
+
+
+create table cv(
+    cv_id serial primary key,  -- i change here the type to serial
     cv_link varchar(100) not NULL,
     teacher_cv int references users(users_id)
-};
+);
 
 
--- {
---     "users_name" : "cotchi",
---     "users_firstname" : "cotchi",
---     "users_email" : "cotchi@gmail.com",
---     "users_password" : "abc123",
---     "users_role" : 3,
---     "users_date_of_birth" : "2004-05-15",
---     "users_address" : "tlemcen",
---     "users_phone" : "052333123",
---     "users_image_link" : ""
 
--- }
+
+
+
+{
+    "users_name" : "cotchi",
+    "users_firstname" : "cotchi",
+    "users_email" : "cotchi@gmail.com",
+    "users_password" : "abc123",
+    "users_role" : 3,
+    "users_date_of_birth" : "2004-05-15",
+    "users_address" : "tlemcen",
+    "users_phone" : "052333123",
+    "users_image_link" : ""
+}

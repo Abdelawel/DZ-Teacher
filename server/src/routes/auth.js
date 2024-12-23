@@ -1,4 +1,4 @@
-const { login, register, logout } = require('../controllers/auth')
+const { login, register, logout, postResource, getResource, deleteResource, updateResource } = require('../controllers/auth')
 
 const {Router} = require("express")
 const { loginValidation, registerValidation } = require('../validators/auth')
@@ -9,6 +9,13 @@ const { approveOrRejectTeacher } = require('../controllers/adminController');
 
 const router = Router()
 
+router.get('/get-resource', getResource)
+
+router.post('/post-resource', validationMiddleware,postResource)
+
+router.put('/delete-resource/:id', deleteResource)
+
+router.put('/update-resource/:id', updateResource)
 
 router.post('/register', registerValidation, validationMiddleware, register)
 
