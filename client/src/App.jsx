@@ -16,7 +16,7 @@ function App() {
       return <Navigate to='/login' />
     }
     const decoded = jwtDecode(token)
-    return <>{decoded.role === value ? <Outlet /> : <Navigate to="/login" />}</>
+    return <>{decoded.role < value+1 ? <Outlet /> : <Navigate to="/login" />}</>
 
   }
 
@@ -31,6 +31,9 @@ function App() {
       }
       else if(decoded.role === 2){
         return <Navigate to='/teacher' />
+      }
+      else if(decoded.role === 1){
+        return <Navigate to='/home' />
       }
 
     }
