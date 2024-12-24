@@ -1,5 +1,18 @@
 const db = require ('./db')
 const {hash} = require('bcryptjs')
+const { Pool } = require('pg')
+
+const connectToPostgres = async(database) =>{
+    const pool = new Pool({
+        user: process.env.USER,
+        host: process.env.HOST,
+        database: database,
+        password: process.env.PASSWORD,
+        port: process.env.PORT,
+    })
+    return pool
+}
+
 
 const createTables = async () =>{
     try {
@@ -182,8 +195,25 @@ const insertDatas = async () =>{
 }
 
 const initializeDatabase = async () => {
-    await createTables();
-    await insertDatas();
+    try {
+        const defaultPool = await connectToPostgres('postgres');
+        const client = await defaultPool.connect();
+
+        const result = await client.query(`SELECT 1 FROM pg_database WHERE datname = $1`, [process.env.DATABASE]);
+
+        if (result.rows.length === 0) {
+            console.log(`Database dz_teacher does not exist. Creating it now...`);
+            await client.query(`CREATE DATABASE ${process.env.DATABASE}`);
+            console.log(`Database "${process.env.DATABASE}" created successfully.`);
+        } else {
+            console.log(`Database "${process.env.DATABASE}" already exists.`);
+        }
+
+        await createTables();
+        await insertDatas();
+    } catch (error) {
+        console.error(error)   
+    }
 };
 
 module.exports = initializeDatabase;

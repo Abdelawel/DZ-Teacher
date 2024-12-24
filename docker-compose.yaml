@@ -1,0 +1,47 @@
+version : '3'
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: abdelawel
+      POSTGRES_DB: postgres 
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  backend:
+    build: 
+      dockerfile: Dockerfile
+      context : './server'
+    env_file:
+      - ./server/.env 
+    environment:
+      HOST: postgres  # Use the service name 'postgres' here for Docker Compose
+      PORT: 5432
+      USER: postgres
+      PASSWORD: abdelawel
+      DATABASE: dz_teacher
+
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./server:/app     
+      - /app/node_modules  
+  frontend:
+    stdin_open: true
+    build: 
+      dockerfile: Dockerfile
+      context: './client'
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./client/.env
+    volumes:
+      - ./client:/app   
+      - /app/node_modules  
+
+volumes:
+  postgres_data: 
+    
+
