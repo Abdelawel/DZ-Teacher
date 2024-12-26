@@ -15,8 +15,7 @@ const Form = () => {
     const [bday, setBday] = useState("");
     const [bmonth, setBmonth] = useState("");
     const [byear, setByear] = useState("");
-    const [expyear, setExpyear] = useState("");
-    const [expmonth, setExpmonth] = useState("");
+    const [password, setPassword] = useState("");
     //mazalo ta3 qualifications
     // State for feedback
     const [error, setError] = useState(null);
@@ -41,8 +40,8 @@ const Form = () => {
             bday,
             bmonth,
             byear,
-            expyear,
-            expmonth
+            password,
+
           },
           {
             headers: {
@@ -189,35 +188,24 @@ const Form = () => {
                         <p className=" text-[22px] text-[#021936] font-bold ">Your Qualifications</p>
                         <div className=" relative ">
                         <input 
+                                    type="file"
                                     id="qualif"
                                     name="qualif"
                                     placeholder="No file selected"
                                     className=" flex-grow w-[486px] h-[62px] mt-[7px] px-5 py-2 border-[2px] border-[#525FE1] rounded-[14px] focus:outline-none focus:ring focus:ring-blue-500"/>
-                                        <button className=" absolute inset-y-4 right-4 rounded-[8px] pl-[15px] font-bold border-[1px] border-[#525FE1] flex items-center px-3 w-[111px] h-[42px] bg-[#EAEAEA] text-[#525FE1] ">
-                                            choose file
-                                        </button>
+                                        
                                         </div>       
                     </div>
                     <div>
-                        <p className=" text-[22px] text-[#021936] font-bold ">Work experience</p>
+                        <p className=" text-[22px] text-[#021936] font-bold ">Password</p>
                         <input 
-                                    type="number"
-                                    min={0}
-                                    id="expyear"
-                                    value={expyear}
-                                    onChange={(e) => setExpyear(e.target.value)}
+                                    type="password"
+                                    id="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                     required
-                                    placeholder="Years"
-                                    className="w-[233px] h-[62px] mr-[15px] mt-[7px] px-5 py-2 border-[2px] border-[#525FE1] rounded-[14px] focus:outline-none focus:ring focus:ring-blue-500"/>
-                                    <input 
-                                    type="number"
-                                    min={1}
-                                    id="expmonth"
-                                    value={expmonth}
-                                    onChange={(e) => setExpmonth(e.target.value)}
-                                    required
-                                    placeholder="Months"
-                                    className="w-[233px] h-[62px] mt-[7px] px-5 py-2 border-[2px] border-[#525FE1] rounded-[14px] focus:outline-none focus:ring focus:ring-blue-500"/>
+                                    placeholder="Enter your password"
+                                    className="w-[486px] h-[62px] mt-[7px] px-5 py-2 border-[2px] border-[#525FE1] rounded-[14px] focus:outline-none focus:ring focus:ring-blue-500"/>
                     </div>
                 </div>
 
