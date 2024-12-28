@@ -1,6 +1,5 @@
 import { BrowserRouter, Navigate, Routes, Route, Outlet, useLocation, useParams} from 'react-router-dom'
 import './App.css'
-import Login from './component/Login'
 import { useSelector } from 'react-redux'
 import { jwtDecode } from 'jwt-decode'
 import Home from './component/Home'
