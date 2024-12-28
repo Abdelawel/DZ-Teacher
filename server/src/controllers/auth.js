@@ -3,7 +3,7 @@ const {hash} = require('bcryptjs')
 const {sign} = require('jsonwebtoken')
 const {SECRET} = require('../constants')
 
-
+///////////////////////////////////////// Resource ///////////////////////////////////////////////////
 exports.getResource = async (req, res)=>{
   try {
     const {rows} = await db.query('select * from resource')
@@ -82,7 +82,7 @@ exports.deleteResource = async (req,res) => {
   try {
     const result = await db.query('update resource set resource_status = 2 where resource_id = $1  returning *;', [req.params.id])
     // console.log(req.params.id)
-    return res.status(201).json({
+    return res.status(200).json({
       data :{
         resource : result.rows[0],
       }
@@ -95,6 +95,101 @@ exports.deleteResource = async (req,res) => {
   }
 }
 
+///////////////////////////////////////// Session ///////////////////////////////////////////////////
+
+exports.getSession = async (req,res) => {
+  try {
+    const {rows} = await db.query(`select * from session `)
+    return res.status(200).json({
+      data : {
+        session : rows
+      }
+    })
+  } catch (error) {
+    return res.status(500).json({
+      error : error.message,
+  })
+  }
+}
+
+exports.postSession = async (req,res) =>{
+  try {
+    const isModule = await db.query('select * from module where module_id = $1', [req.body.resource_module])
+    if(isModule.rows.length === 0 ){
+      return res.status(404).json({error : 'no such module exist'})
+    }
+
+    const isTeacher = await db.query('select * from users where users_id = $1 and users_role = 2', [req.body.uploaded_by])
+    if(isTeacher.rows.length === 0 ){
+      return res.status(404).json({error : 'no such teacher exist'})
+    }
+
+    const result = await db.query(`insert into session
+                                  (session_title, session_description, session_attempt, session_price, session_module, session_status, session_teacher, session_date, session_duration) 
+                                  values ($1, $2, $3, $4, $5, 1, $6, $7, $8, 0) returning *`, [
+                                  req.body.session_title, 
+                                  req.body.session_description, 
+                                  req.body.session_attempt,
+                                  req.body.session_price, 
+                                  req.body.session_module, 
+                                  req.body.session_teacher, 
+                                  req.body.session_date, 
+                                  req.body.session_duration
+                                  ])
+    return res.status(201).json({
+      success: true,
+      data :{
+        resource : result.rows[0],
+      }
+    })
+  } catch (error) {
+    return res.status(500).json({
+      error : error.message,
+  })
+  }
+}
+
+exports.updateSession = async (req, res) =>{
+  try {
+    const result = await db.query(`update session set 
+                                  session_title = $1, session_description = $2, session_attempt = $3, session_price = $4, session_module = $5, session_status = $6, session_date = $7, session_duration = $8, session_number_student = $9 where session_id = $10 returning *`, [
+                                    req.body.session_title, 
+                                    req.body.session_description, 
+                                    req.body.session_attempt, 
+                                    req.body.session_price, 
+                                    req.body.session_module, 
+                                    req.body.session_status, 
+                                    req.body.session_date, 
+                                    req.body.session_duration,
+                                    req.body.session_number_student, 
+                                    req.params.id
+                                  ])
+    return res.status(200).json({
+      data :{
+        session : result.rows[0],
+      }
+    })
+  } catch (error) {
+    return res.status(500).json({
+      error : error.message,
+  })
+  }
+}
+
+exports.deleteSession = async (req, res) => {
+  try {
+    const result = await db.query(`update sesssion set session_status = 3 where session_id = $1`, [req.params.id])
+    return res.status(200).json({
+      data :{
+        resource : result.rows[0],
+      }
+    })
+  } catch (error) {
+    return res.status(500).json({
+      error : error.message,
+  })
+  }
+}
 
 exports.register = async (req, res) => {
     // const { email, password } = req.body

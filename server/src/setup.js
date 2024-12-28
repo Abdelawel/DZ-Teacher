@@ -95,7 +95,8 @@ const createTables = async () =>{
             session_status int references session_sts(status_id),
             session_teacher int references users(users_id),
             session_date TIMESTAMP NOT NULL,
-            session_duration INTERVAL NOT NULL
+            session_duration INTERVAL NOT NULL,
+            session_number_student int not NULL CHECK(session_number_student <= session_attempt)
         );`)
 
         await db.query(`
