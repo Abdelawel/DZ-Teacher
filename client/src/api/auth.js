@@ -16,3 +16,8 @@ export async function onLogout () {
 export async function onRegister (registerData){
     return await axios.post(`http://localhost:3001/api/register`, registerData)
 }
+
+export async function onRegisterTeacher (registerData){
+    return await axios.post('http://localhost:3001/api/registerTeacher' ,registerTeacherData);
+    
+}

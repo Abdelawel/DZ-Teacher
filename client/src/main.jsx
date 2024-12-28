@@ -4,6 +4,8 @@ import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import './index.css'
 import App from './App.jsx'
+import RegisterTeacher from './component/RegisterTeacher'
+
 
 
 
@@ -12,6 +14,7 @@ createRoot(document.getElementById('root')).render(
 
   <StrictMode>
     <App />
+    
   </StrictMode>,
   </Provider>
 )

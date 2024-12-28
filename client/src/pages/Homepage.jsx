@@ -10,6 +10,7 @@ import EnglishCourseImage from '../assets/English.jpg';
 import HistoryCourseImage from '../assets/History.jpg';
 import GeoCourseImage from '../assets/geo.webp';
 import PhysicsCourseImage from '../assets/physics.webp';
+import Layout from "../Layout";
 
 const courses = [
   { title: "Math Course", price: "1500 DA", image: MathCourseImage },
@@ -32,9 +33,10 @@ const Homepage = () => {
   };
 
   return (
+    <Layout>
     <div className="bg-white min-h-screen">
       {/* Header */}
-      <Header />
+      {/* <Header /> */}
       {/* Hero Section */}
       <section className="bg-white py-12">
         <div className="container mx-auto px-6 flex flex-col lg:flex-row items-center">
@@ -183,8 +185,9 @@ const Homepage = () => {
       </section>
 
       {/* Footer */}
-      <Footer />
+      {/* <Footer /> */}
     </div>
+    </Layout>
   );
 };
 
