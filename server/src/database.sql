@@ -2,10 +2,10 @@ create table role (
     role_id int primary key CHECK (role_id IN (1, 2, 3, 4)),
     role_name varchar(50)
 );
--- insert into role (role_id,role_name) values (1,'admin');
--- insert into role (role_id,role_name) values (2,'teacher');
--- insert into role (role_id,role_name) values (3,'student');
--- insert into role (role_id,role_name) values (4,'parent');
+insert into role (role_id,role_name) values (1,'admin') ON CONFLICT DO NOTHING;
+insert into role (role_id,role_name) values (2,'teacher') ON CONFLICT DO NOTHING;
+insert into role (role_id,role_name) values (3,'student') ON CONFLICT DO NOTHING;
+insert into role (role_id,role_name) values (4,'parent') ON CONFLICT DO NOTHING;
 
 create table users (
     users_id serial primary key,
@@ -28,18 +28,18 @@ create table level(
     level_name varchar(50)
 );
 
--- insert into level (level_id, level_name) values (1, '1AP');
--- insert into level (level_id, level_name) values (2, '2AP');
--- insert into level (level_id, level_name) values (3, '3AP');
--- insert into level (level_id, level_name) values (4, '4AP');
--- insert into level (level_id, level_name) values (5, '5AP');
--- insert into level (level_id, level_name) values (6, '1AM');
--- insert into level (level_id, level_name) values (7, '2AM');
--- insert into level (level_id, level_name) values (8, '3AM');
--- insert into level (level_id, level_name) values (9, '4AM');
--- insert into level (level_id, level_name) values (10, '1AS');
--- insert into level (level_id, level_name) values (11, '2AS');
--- insert into level (level_id, level_name) values (12, '3AS');
+insert into level (level_id, level_name) values (1, '1AP') ON CONFLICT DO NOTHING;
+insert into level (level_id, level_name) values (2, '2AP') ON CONFLICT DO NOTHING;
+insert into level (level_id, level_name) values (3, '3AP') ON CONFLICT DO NOTHING;
+insert into level (level_id, level_name) values (4, '4AP') ON CONFLICT DO NOTHING;
+insert into level (level_id, level_name) values (5, '5AP') ON CONFLICT DO NOTHING;
+insert into level (level_id, level_name) values (6, '1AM') ON CONFLICT DO NOTHING;
+insert into level (level_id, level_name) values (7, '2AM') ON CONFLICT DO NOTHING;
+insert into level (level_id, level_name) values (8, '3AM') ON CONFLICT DO NOTHING;
+insert into level (level_id, level_name) values (9, '4AM') ON CONFLICT DO NOTHING;
+insert into level (level_id, level_name) values (10, '1AS') ON CONFLICT DO NOTHING;
+insert into level (level_id, level_name) values (11, '2AS') ON CONFLICT DO NOTHING;
+insert into level (level_id, level_name) values (12, '3AS') ON CONFLICT DO NOTHING;
 
 create table module (
     module_id serial primary key, -- i modify here the type from int to serial
@@ -72,8 +72,8 @@ create table resource_sts(
     resource_status varchar(50)
 );
 
--- insert into resource_sts (status_id, resource_status) values(1, 'published');
--- insert into resource_sts (status_id, resource_status) values(2, 'deleted');
+insert into resource_sts (status_id, resource_status) values(1, 'published') ON CONFLICT DO NOTHING;
+insert into resource_sts (status_id, resource_status) values(2, 'deleted') ON CONFLICT DO NOTHING;
 
 
 CREATE TABLE payment_resource (
@@ -97,7 +97,8 @@ create table session(
     session_status int references session_sts(status_id),
     session_teacher int references users(users_id),
     session_date TIMESTAMP NOT NULL,
-    session_duration INTERVAL NOT NULL
+    session_duration INTERVAL NOT NULL,
+    session_number_student int not NULL CHECK(session_number_student <= session_attempt)
 );
 
 --i modify here the table above
@@ -107,9 +108,9 @@ create table session_sts(
     session_status varchar(50)
 );
 
--- insert into session_sts (status_id, session_status) values(1, 'published');
--- insert into session_sts (status_id, session_status) values(2, 'finished');
--- insert into session_sts (status_id, session_status) values(3, 'canceled');
+insert into session_sts (status_id, session_status) values(1, 'published') ON CONFLICT DO NOTHING;
+insert into session_sts (status_id, session_status) values(2, 'finished') ON CONFLICT DO NOTHING;
+insert into session_sts (status_id, session_status) values(3, 'canceled') ON CONFLICT DO NOTHING;
 
 create table payment_session(
     session_key int references session(session_id),
@@ -132,7 +133,7 @@ create table inscription(
     teacher_status int references inscription_sts(status_id),
     teacher_address varchar(100) DEFAULT '',
     teacher_phone varchar(50) DEFAULT '',
-    teacher_image_link varchar(255),    
+    teacher_image_link varchar(255),
     teacher_created_at date DEFAULT CURRENT_DATE,
     teacher_bank_accout varchar(100)
 );
@@ -145,9 +146,9 @@ create table inscription_sts(
     teacher_status varchar(20)
 );
 
--- insert into inscription_sts (status_id, teacher_status) values(1, 'waiting');
--- insert into inscription_sts (status_id, teacher_status) values(2, 'hired');
--- insert into inscription_sts (status_id, teacher_status) values(3, 'rejected');
+insert into inscription_sts (status_id, teacher_status) values(1, 'waiting') ON CONFLICT DO NOTHING;
+insert into inscription_sts (status_id, teacher_status) values(2, 'hired') ON CONFLICT DO NOTHING;
+insert into inscription_sts (status_id, teacher_status) values(3, 'rejected') ON CONFLICT DO NOTHING;
 
 
 create table cv(

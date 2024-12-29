@@ -4,6 +4,7 @@ const { CLIENT_URL,SERVER_PORT } = require('./constants')
 // const passport = require('passport')
 const authRoutes = require('./routes/auth')
 const cors = require('cors')
+const initializeDatabase = require('./setup')
 
 
 // require('./middlewares/passport-middleware')
@@ -16,6 +17,11 @@ app.use(cookieParser())
 // app.use(passport.initialize())
 
 app.use('/api', authRoutes)
+
+initializeDatabase()
+  .then(() => console.log('Database initialized'))
+  .catch((err) => console.error('Database initialization failed:', err));
+
 
 
 
