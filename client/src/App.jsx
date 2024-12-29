@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Routes, Route, Outlet, useLocation, useParams} from 'react-router-dom'
 import './App.css'
+import Login from './component/Login'
 import { useSelector } from 'react-redux'
 import { jwtDecode } from 'jwt-decode'
 import Home from './component/Home'
@@ -8,8 +9,6 @@ import Register from './component/Register'
 import Homepage from './pages/Homepage'
 import MyProfile from './pages/MyProfile'
 
-import RegisterTeacher from './component/RegisterTeacher'
-import Homepage from   './pages/Homepage'
 
 function App() {
   
@@ -51,10 +50,11 @@ function App() {
         </Route>
         <Route element={<RestrictedRoute />}>
           <Route path='/login' element={<Login/>}/>
+          <Route path='/myprofile' element={<MyProfile/>}/>
           <Route path='/register' element={<Register/>}/>
         </Route>
 
-          
+        
       </Routes>
     </BrowserRouter>
   )

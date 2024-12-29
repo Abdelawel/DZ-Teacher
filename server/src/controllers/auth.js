@@ -230,3 +230,44 @@ exports.approveOrRejectTeacher = async (req, res) => {
       res.status(500).json({ error: 'Error processing request' });
   }
 };
+
+exports.getUserProfile = async (req, res) => {
+  const { id } = req.params;
+  try {
+      const result = await db.query('SELECT * FROM users WHERE id = $1', [id]);
+      if (result.rows.length === 0) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+      res.json(result.rows[0]);
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server error' });
+  }
+};
+
+exports.updateUserProfile = async (req, res) => {
+  const { id } = req.params;
+  const { username, email, profile_picture, bio } = req.body;
+
+  try {
+      const result = await db.query(
+          `UPDATE users SET 
+              username = $1, 
+              email = $2, 
+              profile_picture = $3, 
+              bio = $4, 
+              updated_at = NOW()
+          WHERE id = $5 RETURNING *`,
+          [username, email, profile_picture, bio, id]
+      );
+
+      if (result.rows.length === 0) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+
+      res.json(result.rows[0]);
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server error' });
+  }
+};

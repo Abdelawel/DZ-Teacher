@@ -71,6 +71,29 @@ const MyProfile = () => {
     { length: 100 },
     (_, i) => (new Date().getFullYear() - i).toString()
   );
+  
+  const [profile, setProfile] = useState({});
+  const getUserId = () => {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+
+    const decoded = jwt_decode(token);
+    return decoded.id; // Assuming the token contains { id: userId }
+};
+
+const userId = getUserId();
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const response = await axios.get(/api/users/`${userId}`);
+                setProfile(response.data);
+            } catch (error) {
+                console.error('Error fetching profile:', error);
+            }
+        };
+
+        fetchProfile();
+    }, [userId]);
 
   return (
     <div>

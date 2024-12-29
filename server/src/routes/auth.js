@@ -5,6 +5,8 @@ const { loginValidation, registerValidation } = require('../validators/auth')
 const { validationMiddleware } = require('../middlewares/validators-middleware')
 const { registerTeacher } = require('../controllers/teacherController');
 const { approveOrRejectTeacher } = require('../controllers/adminController');
+const { getUserProfile, updateUserProfile } = require('../controllers/userController');
+
 
 
 const router = Router()
@@ -26,6 +28,11 @@ router.get('/logout', logout)
 router.post('/registerteacher' ,validationMiddleware,registerTeacher);
 
 router.put('/admin/approveteacher/:teacher_id',registerTeacher, adminAuth, approveOrRejectTeacher);
+
+router.get('/:id', getUserProfile);
+
+router.put('/:id', updateUserProfile);
+
 
 
 
