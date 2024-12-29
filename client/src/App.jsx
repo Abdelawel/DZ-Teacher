@@ -2,16 +2,18 @@ import { BrowserRouter, Navigate, Routes, Route, Outlet, useLocation, useParams}
 import './App.css'
 import { useSelector } from 'react-redux'
 import { jwtDecode } from 'jwt-decode'
-import Home from './component/home'
+import Home from './component/Home'
 import Teacher from './component/Teacher'
-import Login from './Login/login'
+import Register from './component/Register'
+import RegisterTeacher from './component/RegisterTeacher'
+import Homepage from   './pages/Homepage'
 
 function App() {
   
 
   const ProtectedRoute = ({value})=>{
     const {token} = useSelector((state)=>state.auth)
-    if(token === null){
+    if(!token){
       return <Navigate to='/login' />
     }
     const decoded = jwtDecode(token)
@@ -21,25 +23,35 @@ function App() {
 
   const RestrictedRoute = ()=>{
     const {token} = useSelector((state)=>state.auth)
-    // if(token == false){
-    //   return <Navigate to='/home' />
-    // }
-    return <>{ token === null ? <Outlet /> : <Navigate to='/home' />}</>
+    if(token == null){
+      return <Outlet/>
+    }else{
+      const decoded = jwtDecode(token)
+      if(decoded.role === 3){
+        return <Navigate to='/home' />
+      }
+      else if(decoded.role === 2){
+        return <Navigate to='/teacher' />
+      }
+
+    }
+    // return <>{ token === null ? <Outlet /> : <Navigate to='/teacher' />}</>
   }
 
   return (
+    // <Homepage/>
     <BrowserRouter>
       <Routes>
+        <Route element={<ProtectedRoute value={3}/>}>
+          <Route path='' element={<Homepage/>}/>
+          <Route path='/teacher' element={<Homepage/>}/>
+        </Route>
         <Route element={<RestrictedRoute />}>
           <Route path='/login' element={<Login/>}/>
+          <Route path='/register' element={<RegisterTeacher/>}/>
         </Route>
 
-        <Route element={<ProtectedRoute value={3}/>}>
-          <Route path='/home' element={<Home/>}/>
-        </Route>
-        <Route element={<ProtectedRoute value={2} />}>
-          <Route path='/teacher' element={<Teacher/>}/>
-        </Route>
+          
       </Routes>
     </BrowserRouter>
   )

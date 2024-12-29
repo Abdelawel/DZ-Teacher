@@ -55,6 +55,46 @@ exports.postResource = async (req, res)=>{
   }
 }
 
+exports.updateResource = async (req,res) => {
+  try {
+    const result = await db.query('update resource set resource_title = $1, resource_description = $2, pdf_link = $3, resource_module = $4, resource_price = $5 where resource_id = $6 returning *;', [
+      req.body.resource_title,
+      req.body.resource_description,
+      req.body.pdf_link,
+      req.body.resource_module,
+      req.body.resource_price,
+      req.params.id
+    ])
+
+    return res.status(200).json({
+      data :{
+        resource : result.rows[0],
+      }
+    })
+  } catch (error) {
+    return res.status(500).json({
+      error : error.message,
+  })
+  }
+}
+
+exports.deleteResource = async (req,res) => {
+  try {
+    const result = await db.query('update resource set resource_status = 2 where resource_id = $1  returning *;', [req.params.id])
+    // console.log(req.params.id)
+    return res.status(201).json({
+      data :{
+        resource : result.rows[0],
+      }
+    })
+
+  } catch (error) {
+    return res.status(500).json({
+      error : error.message,
+  })
+  }
+}
+
 
 exports.register = async (req, res) => {
     // const { email, password } = req.body
@@ -91,7 +131,7 @@ exports.login = async (req, res) => {
     let users = req.users
   
     let payload = {
-      id: users.user_id,
+      id: users.users_id,
       email: users.users_email,
       role: users.users_role
     }
@@ -127,4 +167,66 @@ exports.login = async (req, res) => {
     }
 }
 
+exports.registerTeacher = async (req, res) => {
+  const { teacher_name, teacher_firstname, teacher_email, teacher_password, cv_link, teacher_date_of_birth, teacher_address, teacher_phone } = req.body;
 
+  try {
+    
+      const hashedPassword = await bcrypt.hash(teacher_password, 10);
+
+      const result = await db.query(
+          `INSERT INTO inscription (teacher_name, teacher_firstname, teacher_email, teacher_password, cv_link, teacher_date_of_birth, teacher_address, teacher_phone)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING teacher_id`,
+          [teacher_name, teacher_firstname, teacher_email, hashedPassword, cv_link, teacher_date_of_birth, teacher_address, teacher_phone]
+      );
+
+      // res.status(201).json({ message: 'Registration request submitted', teacher_id: result.rows[0].teacher_id });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error submitting registration request' });
+  }
+};
+
+exports.approveOrRejectTeacher = async (req, res) => {
+  const { teacher_id } = req.params;
+  const { action } = req.body;
+
+  try {
+      if (action === 'approve') {
+          await db.query('BEGIN');
+
+          const teacher = await db.query('SELECT * FROM inscription WHERE teacher_id = $1', [teacher_id]);
+
+          if (teacher.rows.length === 0) {
+              await db.query('ROLLBACK');
+              return res.status(404).json({ error: 'Teacher not found' });
+          }
+
+          const { teacher_name, teacher_firstname, teacher_email, teacher_password, teacher_date_of_birth, teacher_address, teacher_phone, cv_link } = teacher.rows[0];
+
+          const result = await db.query(
+              `INSERT INTO users (users_name, users_firstname, users_email, users_password, users_role, users_date_of_birth, users_address, users_phone)
+               VALUES ($1, $2, $3, $4, 2, $5, $6, $7) RETURNING users_id`,
+              [teacher_name, teacher_firstname, teacher_email, teacher_password, teacher_date_of_birth, teacher_address, teacher_phone]
+          );
+
+          const user_id = result.rows[0].users_id;
+          await db.query('INSERT INTO cv (cv_link, teacher_cv) VALUES ($1, $2)', [cv_link, user_id]);
+
+          await db.query('DELETE FROM inscription WHERE teacher_id = $1', [teacher_id]);
+
+          await db.query('COMMIT');
+
+          res.status(200).json({ message: 'Teacher approved and added to users table' });
+      } else if (action === 'reject') {
+          await db.query('DELETE FROM inscription WHERE teacher_id = $1', [teacher_id]);
+          res.status(200).json({ message: 'Teacher registration request rejected' });
+      } else {
+          res.status(400).json({ error: 'Invalid action' });
+      }
+  } catch (error) {
+      console.error(error);
+      await db.query('ROLLBACK');
+      res.status(500).json({ error: 'Error processing request' });
+  }
+};

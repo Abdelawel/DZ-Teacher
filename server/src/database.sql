@@ -61,7 +61,8 @@ create table resource(
     pdf_link varchar(100) not NULL,
     resource_module int references module(module_id) ON DELETE CASCADE,
     resource_price DECIMAL(10, 2) CHECK (resource_price >= 0),
-    uploaded_by int references users(users_id) ON DELETE CASCADE
+    uploaded_by int references users(users_id) ON DELETE CASCADE,
+    resource_status int references resource_sts(status_id)
 );
 
 --alter table resource add column resource_status int references resource_sts(status_id);
@@ -131,7 +132,7 @@ create table inscription(
     teacher_status int references inscription_sts(status_id),
     teacher_address varchar(100) DEFAULT '',
     teacher_phone varchar(50) DEFAULT '',
-    teacher_image_link varchar(255),
+    teacher_image_link varchar(255),    
     teacher_created_at date DEFAULT CURRENT_DATE,
     teacher_bank_accout varchar(100)
 );
@@ -160,15 +161,14 @@ create table cv(
 
 
 
--- {
---     "users_name" : "cotchi",
---     "users_firstname" : "cotchi",
---     "users_email" : "cotchi@gmail.com",
---     "users_password" : "abc123",
---     "users_role" : 3,
---     "users_date_of_birth" : "2004-05-15",
---     "users_address" : "tlemcen",
---     "users_phone" : "052333123",
---     "users_image_link" : ""
-
--- }
+{
+    "users_name" : "cotchi",
+    "users_firstname" : "cotchi",
+    "users_email" : "cotchi@gmail.com",
+    "users_password" : "abc123",
+    "users_role" : 3,
+    "users_date_of_birth" : "2004-05-15",
+    "users_address" : "tlemcen",
+    "users_phone" : "052333123",
+    "users_image_link" : ""
+}
