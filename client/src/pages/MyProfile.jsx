@@ -3,53 +3,47 @@ import Header from "../component/Header";
 import Footer from "../component/Footer";
 
 const MyProfile = () => {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    address: "",
-    birthday: { day: "", month: "", year: "" },
-    profilePicture: "https://via.placeholder.com/150", // Default profile picture
-  });
+  const [firstName, setFirstName] = useState("Yousra");
+  const [lastName, setLastName] = useState("Lacheb");
+  const [email, setEmail] = useState("example@estin.dz");
+  const [phone, setPhone] = useState("0773651429");
+  const [address, setAddress] = useState("Batna");
+  const [birthdayDay, setBirthdayDay] = useState("23");
+  const [birthdayMonth, setBirthdayMonth] = useState("March");
+  const [birthdayYear, setBirthdayYear] = useState("2005");
+  const [profilePicture, setProfilePicture] = useState("https://via.placeholder.com/150");
 
   const handlePictureChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setFormData((prevData) => ({ ...prevData, profilePicture: reader.result }));
+        setProfilePicture(reader.result);
       };
       reader.readAsDataURL(file);
     }
   };
 
   const handleDeletePicture = () => {
-    setFormData((prevData) => ({
-      ...prevData,
-      profilePicture: "https://via.placeholder.com/150", // Reset to default picture
-    }));
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name.startsWith("birthday")) {
-      setFormData({
-        ...formData,
-        birthday: { ...formData.birthday, [name.split(".")[1]]: value },
-      });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
+    setProfilePicture("https://via.placeholder.com/150");
   };
 
   const handleSave = () => {
+    const formData = {
+      firstName,
+      lastName,
+      email,
+      phone,
+      address,
+      birthday: { day: birthdayDay, month: birthdayMonth, year: birthdayYear },
+      profilePicture,
+    };
     console.log("Saved data:", formData);
     alert("Profile saved successfully!");
   };
 
   const handleCancel = () => {
-    alert("Changes canceled.");
+    alert("Changes canceled");
   };
 
   const days = Array.from({ length: 31 }, (_, i) => (i + 1).toString());
@@ -105,7 +99,7 @@ const userId = getUserId();
           <div className="flex flex-col items-center mb-8">
             <div className="w-32 h-32 rounded-full overflow-hidden mb-4">
               <img
-                src={formData.profilePicture}
+                src={profilePicture}
                 alt="Profile"
                 className="w-full h-full object-cover"
               />
@@ -137,8 +131,8 @@ const userId = getUserId();
                 type="text"
                 name="firstName"
                 placeholder="Enter your first name"
-                value={formData.firstName}
-                onChange={handleChange}
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
                 className="w-full px-4 py-2 border rounded-lg"
               />
             </div>
@@ -148,8 +142,8 @@ const userId = getUserId();
                 type="text"
                 name="lastName"
                 placeholder="Enter your last name"
-                value={formData.lastName}
-                onChange={handleChange}
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
                 className="w-full px-4 py-2 border rounded-lg"
               />
             </div>
@@ -159,8 +153,8 @@ const userId = getUserId();
                 type="email"
                 name="email"
                 placeholder="Enter your email"
-                value={formData.email}
-                onChange={handleChange}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-2 border rounded-lg"
               />
             </div>
@@ -170,8 +164,8 @@ const userId = getUserId();
                 type="text"
                 name="phone"
                 placeholder="Enter your phone number"
-                value={formData.phone}
-                onChange={handleChange}
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
                 className="w-full px-4 py-2 border rounded-lg"
               />
             </div>
@@ -181,8 +175,8 @@ const userId = getUserId();
                 type="text"
                 name="address"
                 placeholder="Enter your address"
-                value={formData.address}
-                onChange={handleChange}
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
                 className="w-full px-4 py-2 border rounded-lg"
               />
             </div>
@@ -190,9 +184,9 @@ const userId = getUserId();
               <label className="block text-sm font-medium mb-1">Birthday</label>
               <div className="flex gap-2">
                 <select
-                  name="birthday.day"
-                  value={formData.birthday.day}
-                  onChange={handleChange}
+                  name="birthdayDay"
+                  value={birthdayDay}
+                  onChange={(e) => setBirthdayDay(e.target.value)}
                   className="w-1/3 px-4 py-2 border rounded-lg"
                 >
                   <option value="">Day</option>
@@ -203,9 +197,9 @@ const userId = getUserId();
                   ))}
                 </select>
                 <select
-                  name="birthday.month"
-                  value={formData.birthday.month}
-                  onChange={handleChange}
+                  name="birthdayMonth"
+                  value={birthdayMonth}
+                  onChange={(e) => setBirthdayMonth(e.target.value)}
                   className="w-1/3 px-4 py-2 border rounded-lg"
                 >
                   <option value="">Month</option>
@@ -216,9 +210,9 @@ const userId = getUserId();
                   ))}
                 </select>
                 <select
-                  name="birthday.year"
-                  value={formData.birthday.year}
-                  onChange={handleChange}
+                  name="birthdayYear"
+                  value={birthdayYear}
+                  onChange={(e) => setBirthdayYear(e.target.value)}
                   className="w-1/3 px-4 py-2 border rounded-lg"
                 >
                   <option value="">Year</option>
