@@ -19,3 +19,8 @@ export async function onRegister (registerData){
     return await axios.post(`${server_url}/api/register`, 
     registerData)
 }
+export async function onRegisterTeacher (registerData){
+    return await axios.post(`${server_url}/api/registerTeacher` ,
+        registerTeacherData);
+    
+}

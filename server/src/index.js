@@ -20,6 +20,7 @@ app.use('/api', authRoutes)
 
 initializeDatabase()
   .then(() => console.log('Database initialized'))
+  
   .catch((err) => console.error('Database initialization failed:', err));
 
 

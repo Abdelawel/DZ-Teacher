@@ -35,7 +35,7 @@ router.get('/logout', logout)
 
 router.post('/registerteacher' ,validationMiddleware,registerTeacher);
 
-router.put('/admin/approveteacher/:teacher_id', approveOrRejectTeacher);
+// router.put('/admin/approveteacher/:teacher_id', approveOrRejectTeacher);
 
 router.get('/:id', getUserProfile);
 
