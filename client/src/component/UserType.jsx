@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import parent from "C:/Users/HP User/dz-teacher/src/assets/Father.png"
-import student from "C:/Users/HP User/dz-teacher/src/assets/Student.png"
-import teacher from "C:/Users/HP User/dz-teacher/src/assets/Teacher.png"
+import parent from "../assets/Father.png"
+import student from "../assets/Student.png"
+import teacher from "../assets/Teacher.png"
 
 const UserType = () => {
 
