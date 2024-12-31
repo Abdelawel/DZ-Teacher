@@ -329,8 +329,21 @@ exports.approveOrRejectTeacher = async (req, res) => {
 exports.getUserProfile = async (req, res) => {
   const { id } = req.params;
   try {
-      const result = await db.query('SELECT * FROM users WHERE id = $1', [id]);
-      if (result.rows.length === 0) {
+    const result = await db.query(
+      `SELECT *, 
+              TO_CHAR(users_date_of_birth, 'DD') AS day_of_birth, 
+              TO_CHAR(users_date_of_birth, 'FMMonth') AS month_of_birth, 
+              TO_CHAR(users_date_of_birth, 'YYYY') AS year_of_birth 
+       FROM users 
+       WHERE users_id = $1`, 
+      [id]
+    );
+    
+    
+    
+    
+    
+          if (result.rows.length === 0) {
           return res.status(404).json({ message: 'User not found' });
       }
       res.json(result.rows[0]);
@@ -341,28 +354,35 @@ exports.getUserProfile = async (req, res) => {
 };
 
 exports.updateUserProfile = async (req, res) => {
-  const { id } = req.params;
-  const { username, email, profile_picture, bio } = req.body;
-
   try {
-      const result = await db.query(
-          `UPDATE users SET 
-              username = $1, 
-              email = $2, 
-              profile_picture = $3, 
-              bio = $4, 
-              updated_at = NOW()
-          WHERE id = $5 RETURNING *`,
-          [username, email, profile_picture, bio, id]
-      );
+    const { users_firstname, users_name, users_email, users_phone, users_address, users_id } = req.body;
 
-      if (result.rows.length === 0) {
-          return res.status(404).json({ message: 'User not found' });
-      }
+    if (!users_firstname || !users_name || !users_email || !users_phone || !users_address || !users_id) {
+      return res.status(400).json({ message: 'Missing required fields' });
+    }
 
-      res.json(result.rows[0]);
+    const result = await db.query(
+      `UPDATE users SET 
+          users_firstname = $1,          
+          users_name = $2,                
+          users_email = $3,               
+          users_phone = $4,               
+          users_address = $5
+        WHERE users_id = $6 RETURNING *`,   
+      [
+        users_firstname, users_name, users_email, users_phone, users_address, users_id
+      ]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    return res.json(result.rows[0]);
   } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: 'Server error' });
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
   }
 };
+
+

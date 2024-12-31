@@ -7,21 +7,21 @@ insert into role (role_id,role_name) values (2,'teacher') ON CONFLICT DO NOTHING
 insert into role (role_id,role_name) values (3,'student') ON CONFLICT DO NOTHING;
 insert into role (role_id,role_name) values (4,'parent') ON CONFLICT DO NOTHING;
 
-create table users (
-    users_id serial primary key,
-    users_name varchar(50) not NULL,
-    users_firstname varchar(50) not NULL,
-    users_email varchar(100) unique not NULL,
-    users_password varchar(100) not NULL,
-    users_role int references role(role_id) not NUll,
-    users_date_of_birth date CHECK (users_date_of_birth <= CURRENT_DATE),
-    users_address varchar(100) DEFAULT '',
-    users_phone varchar(50) DEFAULT '',
-    users_image_link varchar(255),
-    users_created_at date DEFAULT CURRENT_DATE,
-    users_bank_accout varchar(100),
-    users_parent int references users(users_id)
-);
+    create table users (
+        users_id serial primary key,
+        users_name varchar(50) not NULL,
+        users_firstname varchar(50) not NULL,
+        users_email varchar(100) unique not NULL,
+        users_password varchar(100) not NULL,
+        users_role int references role(role_id) not NUll,
+        users_date_of_birth date CHECK (users_date_of_birth <= CURRENT_DATE),
+        users_address varchar(100) DEFAULT '',
+        users_phone varchar(50) DEFAULT '',
+        users_image_link varchar(255),
+        users_created_at date DEFAULT CURRENT_DATE,
+        users_bank_accout varchar(100),
+        users_parent int references users(users_id)
+    );
 
 create table level(
     level_id int primary key,

@@ -4,7 +4,7 @@ const { CLIENT_URL,SERVER_PORT } = require('./constants')
 // const passport = require('passport')
 const authRoutes = require('./routes/auth')
 const cors = require('cors')
-const initializeDatabase = require('./setup')
+const initializeDatabase = require('./setup') 
 
 
 // require('./middlewares/passport-middleware')

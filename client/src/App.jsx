@@ -6,8 +6,9 @@ import { jwtDecode } from 'jwt-decode'
 import Home from './component/Home'
 import Teacher from './component/Teacher'
 import Register from './component/Register'
-import Homepage from './pages/Homepage'
 import MyProfile from './pages/MyProfile'
+import HomePage from './pages/Homepage'
+
 
 
 function App() {
@@ -15,11 +16,11 @@ function App() {
 
   const ProtectedRoute = ({value})=>{
     const {token} = useSelector((state)=>state.auth)
-    if(!token){
+    if(token === null){
       return <Navigate to='/login' />
     }
     const decoded = jwtDecode(token)
-    return <>{decoded.role === value ? <Outlet /> : <Navigate to="/login" />}</>
+    return <>{decoded.role < value+1 ? <Outlet /> : <Navigate to="/login" />}</>
 
   }
 
@@ -35,22 +36,25 @@ function App() {
       else if(decoded.role === 2){
         return <Navigate to='/teacher' />
       }
+      else if(decoded.role === 1){
+        return <Navigate to='/home' />
+      }
 
     }
     // return <>{ token === null ? <Outlet /> : <Navigate to='/teacher' />}</>
   }
 
   return (
-    // <Homepage/>
     <BrowserRouter>
       <Routes>
         <Route element={<ProtectedRoute value={3}/>}>
-          <Route path='' element={<Homepage/>}/>
-          <Route path='/teacher' element={<Homepage/>}/>
+          <Route path='/home' element={<HomePage/>}/>
+        </Route>
+        <Route element={<ProtectedRoute value={2} />}>
+          <Route path='/teacher' element={<Teacher/>}/>
         </Route>
         <Route element={<RestrictedRoute />}>
           <Route path='/login' element={<Login/>}/>
-          <Route path='/myprofile' element={<MyProfile/>}/>
           <Route path='/register' element={<Register/>}/>
         </Route>
 

@@ -1,7 +1,7 @@
 import React from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import CourseCard from '../components/CourseCard';
+// import Header from '../components/Header';
+// import Footer from '../components/Footer';
+import CourseCard from '../component/CourseCard';
 
 const courses = [
   { name: 'Math', price: 1500, image: 'https://via.placeholder.com/300' },
@@ -12,7 +12,7 @@ const courses = [
 const CoursesPage = () => {
   return (
     <div className="bg-white min-h-screen">
-      <Header />
+      {/* <Header /> */}
       <section className="py-12">
         <div className="container mx-auto px-6 text-center">
           <h3 className="text-3xl font-bold text-gray-800">
@@ -30,7 +30,7 @@ const CoursesPage = () => {
           </div>
         </div>
       </section>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

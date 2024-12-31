@@ -22,10 +22,10 @@ const Register = () => {
     
     // State for feedback
     const [error, setError] = useState("");
-    const [successMessage, setSuccessMessage] = useState("");
-
-
+    
+    
     const handleSubmit = async (e) => {
+            const [successMessage, setSuccessMessage] = useState("");
         e.preventDefault()
         // setBirthday(`${year}-${month}-${day}`)
         try {
