@@ -8,6 +8,7 @@ import Teacher from './component/Teacher'
 import Register from './component/Register'
 import MyProfile from './pages/MyProfile'
 import HomePage from './pages/Homepage'
+import RegisterTeacher from './component/RegisterTeacher'
 
 
 
@@ -45,17 +46,18 @@ function App() {
   }
 
   return (
+    // <RegisterTeacher/>
     <BrowserRouter>
       <Routes>
         <Route element={<ProtectedRoute value={3}/>}>
-          <Route path='/home' element={<HomePage/>}/>
+          <Route path='/home' element={<RegisterTeacher/>}/>
         </Route>
         <Route element={<ProtectedRoute value={2} />}>
-          <Route path='/teacher' element={<Teacher/>}/>
+          <Route path='/teacher' element={<RegisterTeacher/>}/>
         </Route>
         <Route element={<RestrictedRoute />}>
           <Route path='/login' element={<Login/>}/>
-          <Route path='/register' element={<Register/>}/>
+          {/* <Route path='/register' element={<Register/>}/> */}
         </Route>
 
         

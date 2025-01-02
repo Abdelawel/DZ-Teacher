@@ -2,6 +2,8 @@ const db = require ('../db')
 const {hash} = require('bcryptjs')
 const {sign} = require('jsonwebtoken')
 const {SECRET} = require('../constants')
+const bcrypt = require('bcrypt');
+
 
 ///////////////////////////////////////// Resource ///////////////////////////////////////////////////
 exports.getResource = async (req, res)=>{
@@ -263,24 +265,55 @@ exports.login = async (req, res) => {
 }
 
 exports.registerTeacher = async (req, res) => {
-  const { teacher_name, teacher_firstname, teacher_email, teacher_password, cv_link, teacher_date_of_birth, teacher_address, teacher_phone } = req.body;
+  const {
+    teacher_name,
+    teacher_firstname,
+    teacher_email,
+    teacher_password,
+    teacher_date_of_birth,
+    teacher_address = '',
+    teacher_phone = '',
+    cv_link
+  } = req.body;
 
   try {
-    
-      const hashedPassword = await bcrypt.hash(teacher_password, 10);
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(teacher_password, parseInt(process.env.BCRYPT_SALT_ROUNDS, 10) || 10);
 
-      const result = await db.query(
-          `INSERT INTO inscription (teacher_name, teacher_firstname, teacher_email, teacher_password, cv_link, teacher_date_of_birth, teacher_address, teacher_phone)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING teacher_id`,
-          [teacher_name, teacher_firstname, teacher_email, hashedPassword, cv_link, teacher_date_of_birth, teacher_address, teacher_phone]
-      );
+    // Insert the new teacher into the database with default teacher_status = 1
+    const result = await db.query(
+      `INSERT INTO inscription (
+        teacher_name, teacher_firstname, teacher_email, teacher_password, 
+        teacher_date_of_birth, teacher_address, teacher_phone, cv_link, teacher_status
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 1) RETURNING teacher_id`,
+      [
+        teacher_name,
+        teacher_firstname,
+        teacher_email,
+        hashedPassword,
+        teacher_date_of_birth,
+        teacher_address,
+        teacher_phone,
+        cv_link
+      ]
+    );
 
-      // res.status(201).json({ message: 'Registration request submitted', teacher_id: result.rows[0].teacher_id });
+    // Send success response
+    res.status(201).json({
+      message: 'Teacher registered successfully',
+      teacher_id: result.rows[0].teacher_id,
+    });
   } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Error submitting registration request' });
+    if (error.code === '23505') {
+      // Handle unique constraint violation (email already exists)
+      return res.status(409).json({ error: 'Email already exists' });
+    }
+    console.error('Error registering teacher:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+
 
 exports.approveOrRejectTeacher = async (req, res) => {
   const { teacher_id } = req.params;

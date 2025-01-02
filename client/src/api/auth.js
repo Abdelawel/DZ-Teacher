@@ -19,13 +19,13 @@ export async function onRegister (registerData){
     return await axios.post(`${server_url}/api/register`, 
     registerData)
 }
-export async function ziyad(ID) {
+export async function Profile(ID) {
     return await axios.post(`${server_url}/api/${ID}`, { ID });
   }
   
 
-export async function onRegisterTeacher (registerData){
-    return await axios.post(`${server_url}/api/registerTeacher` ,
-        registerTeacherData);
+export async function onRegisterTeacher (registerDataTeacher){
+    return await axios.post(`${server_url}/api/registerteacher` ,
+        registerDataTeacher);
     
 }
