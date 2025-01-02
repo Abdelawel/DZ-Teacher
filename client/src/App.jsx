@@ -50,14 +50,16 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<ProtectedRoute value={3}/>}>
-          <Route path='/home' element={<RegisterTeacher/>}/>
+          <Route path='/teacher' element={<Teacher/>}/>
+          <Route path='/home' element={<Home/>}/>
         </Route>
-        <Route element={<ProtectedRoute value={2} />}>
-          <Route path='/teacher' element={<RegisterTeacher/>}/>
-        </Route>
+        <Route path='/' element={<Homepage/>}/>
         <Route element={<RestrictedRoute />}>
           <Route path='/login' element={<Login/>}/>
-          {/* <Route path='/register' element={<Register/>}/> */}
+          <Route path='/myprofile' element={<MyProfile/>}/>
+          <Route path='/register' element={<Register/>}/>
+          
+          
         </Route>
 
         

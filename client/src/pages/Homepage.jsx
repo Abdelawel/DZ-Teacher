@@ -10,7 +10,7 @@ import EnglishCourseImage from '../assets/English.jpg';
 import HistoryCourseImage from '../assets/History.jpg';
 import GeoCourseImage from '../assets/geo.webp';
 import PhysicsCourseImage from '../assets/physics.webp';
-import Layout from "../Layout";
+import Layout from '../component/Layout'
 
 const courses = [
   { title: "Math Course", price: "1500 DA", image: MathCourseImage },
