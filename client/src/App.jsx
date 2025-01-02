@@ -52,6 +52,8 @@ function App() {
           <Route path='/login' element={<Login/>}/>
           <Route path='/myprofile' element={<MyProfile/>}/>
           <Route path='/register' element={<Register/>}/>
+          
+          
         </Route>
 
         
