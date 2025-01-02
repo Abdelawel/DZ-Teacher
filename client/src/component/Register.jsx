@@ -66,7 +66,9 @@ const Register = () => {
                 </div>
                 <div className="flex items-center justify-center w-[329px] h-[59px] bg-[#979FEC] ml-[53px] rounded-[14px] mt-[29px] ">
                         <div className=" w-[146px] h-[40px] rounded-[14px] ">
-                        <button className="  text-center text-white w-[146px] h-[40px] ">Login</button>
+                        <a href='/login' className="w-[146px] h-[40px] rounded-[14px] ml-[13px] ">
+                                    <button className="  text-center text-white w-[146px] h-[40px] ">Login</button>
+                        </a>
                         </div>
                         <div className="w-[146px] h-[40px] bg-[#525FE1] rounded-[14px] ml-[13px] ">
                         <button className="  text-center text-white w-[146px] h-[40px] ">Register</button>

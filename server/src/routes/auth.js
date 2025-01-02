@@ -1,8 +1,12 @@
-const { login, register, logout, postResource, getResource, deleteResource, updateResource, getSession, postSession, updateSession, deleteSession } = require('../controllers/auth')
+const { login, register, logout, postResource, getResource, deleteResource, updateResource, getSession, postSession, updateSession, deleteSession, registerTeacher, approveOrRejectTeacher } = require('../controllers/auth')
 
 const {Router} = require("express")
 const { loginValidation, registerValidation } = require('../validators/auth')
 const { validationMiddleware } = require('../middlewares/validators-middleware')
+const {adminAuth} = require('../middlewares/auth-middleware')
+// const { registerTeacher } = require('../controllers/registerTeacher');
+// const { approveOrRejectTeacher } = require('../controllers/adminController');
+
 
 const router = Router()
 
@@ -27,6 +31,13 @@ router.post('/register', registerValidation, validationMiddleware, register)
 router.post('/login', loginValidation, validationMiddleware, login)
 
 router.get('/logout', logout)
+
+router.post('/registerteacher' ,validationMiddleware,registerTeacher);
+
+router.put('/admin/approveteacher/:teacher_id',registerTeacher, approveOrRejectTeacher);
+
+
+
 
 
 

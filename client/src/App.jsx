@@ -6,6 +6,9 @@ import { jwtDecode } from 'jwt-decode'
 import Home from './component/Home'
 import Teacher from './component/Teacher'
 import Register from './component/Register'
+import Homepage from './pages/Homepage'
+import MyProfile from './pages/MyProfile'
+
 
 function App() {
   
@@ -41,17 +44,20 @@ function App() {
   }
 
   return (
+    // <Homepage/>
     <BrowserRouter>
       <Routes>
         <Route element={<ProtectedRoute value={3}/>}>
+          <Route path='/teacher' element={<Teacher/>}/>
           <Route path='/home' element={<Home/>}/>
         </Route>
-        <Route element={<ProtectedRoute value={2} />}>
-          <Route path='/teacher' element={<Teacher/>}/>
-        </Route>
+        <Route path='/' element={<Homepage/>}/>
         <Route element={<RestrictedRoute />}>
           <Route path='/login' element={<Login/>}/>
+          <Route path='/myprofile' element={<MyProfile/>}/>
           <Route path='/register' element={<Register/>}/>
+          
+          
         </Route>
 
         
