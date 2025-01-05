@@ -95,6 +95,49 @@ exports.deleteResource = async (req,res) => {
   }
 }
 
+exports.getModules = async(req,res ) =>{
+  try {
+    const result = await db.query('select * from module;')
+    return res.status(200).json({
+      data :{
+        modules : result.rows,
+      }
+    })
+  } catch (error) {
+    return res.status(500).json({
+      error : error.message,
+  })
+  }
+}
+
+exports.getTable = async(req,res) =>{
+  try {
+    const result = await db.query(`SELECT * FROM role;`)
+    return res.status(200).json({
+      result: result
+    })
+  } catch (error) {
+    return res.status(500).json({
+      error : error.message,
+  })
+  }
+}
+
+exports.getLevels = async(req,res)=>{
+  try {
+    const result = await db.query('select * from level;')
+    return res.status(200).json({
+      data :{
+        levels : result.rows,
+      }
+    })
+  } catch (error) {
+    return res.status(500).json({
+      error : error.message,
+  })
+  }
+}
+
 ///////////////////////////////////////// Session ///////////////////////////////////////////////////
 
 exports.getSession = async (req,res) => {

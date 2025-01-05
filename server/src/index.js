@@ -5,6 +5,7 @@ const { CLIENT_URL,SERVER_PORT } = require('./constants')
 const authRoutes = require('./routes/auth')
 const cors = require('cors')
 const initializeDatabase = require('./setup')
+const serverless = require('serverless-http');
 
 
 // require('./middlewares/passport-middleware')
@@ -18,22 +19,26 @@ app.use(cookieParser())
 
 app.use('/api', authRoutes)
 
-initializeDatabase()
-  .then(() => console.log('Database initialized'))
-  .catch((err) => console.error('Database initialization failed:', err));
+// initializeDatabase()
+//   .then(() => console.log('Database initialized'))
+//   .catch((err) => console.error('Database initialization failed:', err));
 
 
 
 
 
-const appStart = () =>{
-    try {
-    app.listen(SERVER_PORT, ()=>{
-    console.log(`server running on ${SERVER_PORT}`)
-       })
-    } catch (error) {
-        console.log(error)
-    }
-}
+// const appStart = () =>{
+//     try {
+//     app.listen(SERVER_PORT, ()=>{
+//     console.log(`server running on ${SERVER_PORT}`)
+//        })
+//     } catch (error) {
+//         console.log(error)
+//     }
+// }
 
-appStart()
+// appStart()
+
+
+module.exports = app;
+module.exports.handler = serverless(app); // Required for Vercel

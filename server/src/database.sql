@@ -133,7 +133,7 @@ create table inscription(
     teacher_status int references inscription_sts(status_id),
     teacher_address varchar(100) DEFAULT '',
     teacher_phone varchar(50) DEFAULT '',
-    teacher_image_link varchar(255),
+    teacher_image_link varchar(255),    
     teacher_created_at date DEFAULT CURRENT_DATE,
     teacher_bank_accout varchar(100)
 );
