@@ -1,6 +1,6 @@
 const express = require('express')
 const cookieParser = require('cookie-parser')
-const { CLIENT_URL,SERVER_PORT } = require('./constants')
+const { CLIENT_URL,SERVER_PORT, VERCEL_URL } = require('./constants')
 // const passport = require('passport')
 const authRoutes = require('./routes/auth')
 const cors = require('cors')
@@ -11,7 +11,9 @@ const serverless = require('serverless-http');
 // require('./middlewares/passport-middleware')
 const app = express()
 
-app.use(cors({ origin : CLIENT_URL , credentials : true}))
+const allowedOrigins = process.env.NODE_ENV === 'production' ? VERCEL_URL : CLIENT_URL;
+
+app.use(cors({ origin : allowedOrigins , credentials : true}))
 
 app.use(express.json())
 app.use(cookieParser())
