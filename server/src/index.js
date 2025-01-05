@@ -11,9 +11,28 @@ const serverless = require('serverless-http');
 // require('./middlewares/passport-middleware')
 const app = express()
 
-const allowedOrigins = process.env.NODE_ENV === 'production' ? VERCEL_URL : CLIENT_URL;
+// const allowedOrigins = process.env.NODE_ENV === 'production' ? VERCEL_URL : CLIENT_URL;
 
-app.use(cors({ origin : allowedOrigins , credentials : true}))
+const allowedOrigins = [
+    'https://educatedz.vercel.app', // Add your frontend URL
+    'https://dz-te4cher-backend.vercel.app', // Add your backend URL (if necessary)
+    'http://localhost:3000', // For local development
+  ];
+  
+  // CORS configuration
+  const corsOptions = {
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true); // Allow the request
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true, // Allow cookies and authorization headers
+  };
+
+// app.use(cors({ origin : allowedOrigins , credentials : true}))
+app.use(cors(corsOptions))
 
 app.use(express.json())
 app.use(cookieParser())
