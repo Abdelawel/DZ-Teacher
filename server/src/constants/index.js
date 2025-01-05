@@ -7,5 +7,6 @@ module.exports = {
     CLIENT_URL : process.env.CLIENT_URL,
     SERVER_PORT : process.env.SERVER_PORT,
     SECRET : process.env.SECRET,
-    VERCEL_URL : process.env.VERCEL_URL
+    VERCEL_URL : process.env.VERCEL_URL, 
+    VERCEL_BACKEND_URL : process.env.VERCEL_BACKEND_URL
 }
