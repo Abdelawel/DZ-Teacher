@@ -53,7 +53,7 @@ function App() {
         
         
         <Route element={<ProtectedRoute value={2}/>}>    {/* for teacher */}
-          <Route path='/teacher' element={<Teacher/>}/>
+          
           <Route path='/home' element={<Home/>}/>
           <Route path='/new-resource' element={<NewResource/>}/>
           <Route path='/new-course' element={<NewCourse/>}/>
@@ -61,7 +61,7 @@ function App() {
 
 
         <Route element={<ProtectedRoute value={3}/>}>    {/* for student */}
-          
+          <Route path='/teacher' element={<Teacher/>}/>
         </Route>
         
         <Route path='/' element={<Homepage/>}/>
