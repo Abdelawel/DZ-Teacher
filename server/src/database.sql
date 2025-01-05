@@ -97,7 +97,8 @@ create table session(
     session_status int references session_sts(status_id),
     session_teacher int references users(users_id),
     session_date TIMESTAMP NOT NULL,
-    session_duration INTERVAL NOT NULL
+    session_duration INTERVAL NOT NULL,
+    session_number_student int not NULL CHECK(session_number_student <= session_attempt)
 );
 
 --i modify here the table above
@@ -132,7 +133,7 @@ create table inscription(
     teacher_status int references inscription_sts(status_id),
     teacher_address varchar(100) DEFAULT '',
     teacher_phone varchar(50) DEFAULT '',
-    teacher_image_link varchar(255),
+    teacher_image_link varchar(255),    
     teacher_created_at date DEFAULT CURRENT_DATE,
     teacher_bank_accout varchar(100)
 );

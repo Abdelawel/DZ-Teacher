@@ -1,11 +1,17 @@
 import { BrowserRouter, Navigate, Routes, Route, Outlet, useLocation, useParams} from 'react-router-dom'
 import './App.css'
-import Login from './component/Login'
 import { useSelector } from 'react-redux'
 import { jwtDecode } from 'jwt-decode'
 import Home from './component/Home'
 import Teacher from './component/Teacher'
 import Register from './component/Register'
+import MyProfile from './pages/MyProfile'
+
+import RegisterTeacher from './component/RegisterTeacher'
+import Homepage from   './pages/Homepage'
+import Login from './component/Login'
+import NewResource from './component/NewResource'
+import NewCourse from './component/NewCourse'
 
 function App() {
   
@@ -41,20 +47,36 @@ function App() {
   }
 
   return (
+    // <Homepage/>
     <BrowserRouter>
       <Routes>
-        <Route element={<ProtectedRoute value={3}/>}>
-          <Route path='/home' element={<Home/>}/>
-        </Route>
-        <Route element={<ProtectedRoute value={2} />}>
+        
+        
+        <Route element={<ProtectedRoute value={2}/>}>    {/* for teacher */}
           <Route path='/teacher' element={<Teacher/>}/>
-        </Route>
-        <Route element={<RestrictedRoute />}>
-          <Route path='/login' element={<Login/>}/>
-          <Route path='/register' element={<Register/>}/>
+          <Route path='/home' element={<Home/>}/>
+          <Route path='/new-resource' element={<NewResource/>}/>
+          <Route path='/new-course' element={<NewCourse/>}/>
         </Route>
 
+
+        <Route element={<ProtectedRoute value={3}/>}>    {/* for student */}
+          
+        </Route>
         
+        <Route path='/' element={<Homepage/>}/>
+        
+        
+        <Route element={<RestrictedRoute />}>
+          <Route path='/login' element={<Login/>}/>
+          <Route path='/myprofile' element={<MyProfile/>}/>
+          <Route path='/register' element={<Register/>}/>
+          
+          
+          <Route path='/register-teacher' element={<RegisterTeacher/>}/>
+        </Route>
+
+          
       </Routes>
     </BrowserRouter>
   )
