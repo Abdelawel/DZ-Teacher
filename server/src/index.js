@@ -1,6 +1,6 @@
 const express = require('express')
 const cookieParser = require('cookie-parser')
-const { CLIENT_URL,SERVER_PORT, VERCEL_URL, VERCEL_BACKEND_URL } = require('./constants')
+const { CLIENT_URL,SERVER_PORT, VERCEL_URL } = require('./constants')
 // const passport = require('passport')
 const authRoutes = require('./routes/auth')
 const cors = require('cors')
@@ -14,9 +14,9 @@ const app = express()
 // const allowedOrigins = process.env.NODE_ENV === 'production' ? VERCEL_URL : CLIENT_URL;
 
 const allowedOrigins = [
-    VERCEL_URL, // Add your frontend URL
-    VERCEL_BACKEND_URL, // Add your backend URL (if necessary)
-    CLIENT_URL, // For local development
+    'https://educatedz.vercel.app', // Add your frontend URL
+    'https://dz-te4cher-backend.vercel.app', // Add your backend URL (if necessary)
+    'http://localhost:3000', // For local development
   ];
   
   // CORS configuration
