@@ -8,6 +8,10 @@ import Teacher from './component/Teacher'
 import Register from './component/Register'
 import Homepage from './pages/Homepage'
 import MyProfile from './pages/MyProfile'
+import ResourcesPage from './pages/Myresources';
+
+import './i18n'; 
+
 
 
 function App() {
@@ -45,13 +49,16 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<ProtectedRoute value={3}/>}>
-          <Route path='' element={<Homepage/>}/>
+          <Route path='/' element={<Homepage/>}/>
           <Route path='/teacher' element={<Homepage/>}/>
         </Route>
         <Route element={<RestrictedRoute />}>
           <Route path='/login' element={<Login/>}/>
           <Route path='/myprofile' element={<MyProfile/>}/>
           <Route path='/register' element={<Register/>}/>
+          <Route path='/homepage' element={<Homepage/>}/>
+          
+          <Route path="/resources" element={<ResourcesPage />} />
           
           
         </Route>
