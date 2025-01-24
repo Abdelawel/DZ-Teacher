@@ -20,19 +20,19 @@ const allowedOrigins = [
   ];
   
   // CORS configuration
-  const corsOptions = {
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true); // Allow the request
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    credentials: true, // Allow cookies and authorization headers
-  };
+  // const corsOptions = {
+  //   origin: (origin, callback) => {
+  //     if (!origin || allowedOrigins.includes(origin)) {
+  //       callback(null, true); // Allow the request
+  //     } else {
+  //       callback(new Error('Not allowed by CORS'));
+  //     }
+  //   },
+  //   credentials: true, // Allow cookies and authorization headers
+  // };
 
-// app.use(cors({ origin : allowedOrigins , credentials : true}))
-app.use(cors(corsOptions))
+app.use(cors({ origin : 'http://localhost:3000' , credentials : true}))
+// app.use(cors(corsOptions))
 
 app.use(express.json())
 app.use(cookieParser())
@@ -48,18 +48,18 @@ app.use('/api', authRoutes)
 
 
 
-// const appStart = () =>{
-//     try {
-//     app.listen(SERVER_PORT, ()=>{
-//     console.log(`server running on ${SERVER_PORT}`)
-//        })
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
+const appStart = () =>{
+    try {
+    app.listen(SERVER_PORT, ()=>{
+    console.log(`server running on ${SERVER_PORT}`)
+       })
+    } catch (error) {
+        console.log(error)
+    }
+}
 
-// appStart()
+appStart()
 
 
 module.exports = app;
-module.exports.handler = serverless(app); // Required for Vercel
+// module.exports.handler = serverless(app); // Required for Vercel

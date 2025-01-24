@@ -2,6 +2,7 @@ create table role (
     role_id int primary key CHECK (role_id IN (1, 2, 3, 4)),
     role_name varchar(50)
 );
+
 insert into role (role_id,role_name) values (1,'admin') ON CONFLICT DO NOTHING;
 insert into role (role_id,role_name) values (2,'teacher') ON CONFLICT DO NOTHING;
 insert into role (role_id,role_name) values (3,'student') ON CONFLICT DO NOTHING;
