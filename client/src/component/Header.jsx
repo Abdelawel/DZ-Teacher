@@ -5,6 +5,9 @@ import { logout } from '../redux/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
 
 
+  const handleLogout = () => {  
+    setIsLoggedIn(false); 
+  };
 
 const Header = ({isLoggedIn}) => {
   
