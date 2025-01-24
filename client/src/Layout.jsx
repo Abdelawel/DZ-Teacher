@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import Header from './Header';  // Import the Header component
-import Footer from './Footer';  // Import the Footer component
-
+// import Header from './Header';  // Import the Header component
+import Footer from './component/Footer';
+import Header from './component/Header';
+// Import the Footer component
+// import Homepage from './pages/Homepage';
 
 import { useSelector } from 'react-redux'
 import { jwtDecode } from 'jwt-decode'

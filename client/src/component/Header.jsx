@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; 
 import { onLogout } from '../api/auth';
 import { logout } from '../redux/slices/authSlice';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 
 
 const Header = ({isLoggedIn}) => {
   
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   
   
   const handleLogout = async ()=>{
@@ -17,7 +17,7 @@ const Header = ({isLoggedIn}) => {
       await onLogout()
       localStorage.removeItem('token')
       dispatch(logout())
-      navigate('/')
+      // navigate('/')
     } catch (error) {
       console.log(error.response)
     }

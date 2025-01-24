@@ -6,8 +6,8 @@ const { validationMiddleware } = require('../middlewares/validators-middleware')
 const {adminAuth} = require('../middlewares/auth-middleware')
 // const { registerTeacher } = require('../controllers/registerTeacher');
 // const { approveOrRejectTeacher } = require('../controllers/adminController');
-const { registerTeacher } = require('../controllers/auth');
-const { approveOrRejectTeacher } = require('../controllers/auth');
+// const { registerTeacher } = require('../controllers/auth');
+// const { approveOrRejectTeacher } = require('../controllers/auth');
 const { getUserProfile, updateUserProfile } = require('../controllers/auth');
 
 
