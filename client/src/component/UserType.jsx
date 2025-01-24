@@ -4,67 +4,67 @@ import parent from "../assets/Father.png"
 import student from "../assets/Student.png"
 import teacher from "../assets/Teacher.png"
 
-const UserType = () => {
+const Usertype = () => {
+  return (
+    <div>
+      <div className="w-full h-auto">
+        {/* Header Bar */}
+        <div className="w-full h-[87px] bg-[#021936]"></div>
 
-
-    return(
-
-        <div>
-            <div className="w-[1440px] h-auto ">
-                
-                
-            <div className=" w-[1440px] h-[87px]  absolute top-0 bg-[#021936]">
-            </div>
-            <div className=" flex justify-center items-center w-[885px] h-[60px] ml-[287px] mt-[168px] text-[#021936] text-[54px] font-bold  ">
-                <p>You Are <span className=" text-[#525FE1] ">Joining DZ</span>-TEACHERS As A</p>
-            </div>
-
-            <div className=" flex justify-center items-center h-[299px] w-[1042px] ml-[199px] mt-[65px]  ">
-
-            <button className=" shadow-md shadow-[#A9A9A9] w-[299px] h-[299px] border-[#A9A9A9] border-[2px] rounded-[5px] ">
-                <div className="ml-[118px] mt-[45px]">
-                <img src={student} alt="" className="w-[78px] h-[78px]"/>
-                </div>
-                <div className=" w-[78px] h-[24px] font-bold text-[24px] mt-[25px] ml-[110px] ">
-                    Student
-                </div>
-                <div className=" text-center w-[234px] h-[72px] mt-[23px] ml-[28px] text-[16px] text-[#7A7A7A] ">
-                    descriptiondescrtiondes criptionde scription descriptio ndescriptiondescription
-                </div>
-            </button>
-            <button className=" shadow-md shadow-[#A9A9A9] w-[299px] h-[299px] ml-[72px] border-[#A9A9A9] border-[2px] rounded-[5px] ">
-                <div className="ml-[108px] mt-[45px]">
-                <img src={teacher} alt="" className="w-[78px] h-[78px]"/>
-                </div>
-                <div className=" w-[78px] h-[24px] font-bold text-[24px] mt-[25px] ml-[110px] ">
-                    Teacher
-                </div>
-                <div className=" text-center w-[234px] h-[72px] mt-[23px] ml-[28px] text-[16px] text-[#7A7A7A] ">
-                    descriptiondescrtiondes criptionde scription descriptio ndescriptiondescription
-                </div>
-            </button>
-            <button className=" shadow-md shadow-[#A9A9A9] w-[299px] h-[299px] ml-[73px] border-[#A9A9A9] border-[2px] rounded-[5px] ">
-                <div className="ml-[108px] mt-[45px]">
-                <img src={parent} alt="" className="w-[78px] h-[78px]"/>
-                </div>
-                <div className=" w-[78px] h-[24px] font-bold text-[24px] mt-[25px] ml-[110px] ">
-                    Parent
-                </div>
-                <div className=" text-center w-[234px] h-[72px] mt-[23px] ml-[28px] text-[16px] text-[#7A7A7A] ">
-                    descriptiondescrtiondes criptionde scription descriptio ndescriptiondescription
-                </div>
-            </button>
-
-            </div>
-            
-
-        <div className=" w-[1440px] h-[495px] absolute top-[715px] bg-[#021936] ">
-
+        {/* Welcome Text */}
+        <div className="flex flex-col md:flex-row justify-center items-center text-center md:text-left h-auto w-full mt-[50px] px-4">
+          <p className="text-[#021936] text-[32px] md:text-[54px] font-bold">
+            You Are <span className="text-[#525FE1]">Joining DZ</span>-TEACHERS As A
+          </p>
         </div>
 
+        {/* Buttons Container */}
+        <div className="flex flex-col md:flex-row justify-center items-center gap-8 h-auto w-full mt-[30px] px-4">
+          {/* Student Button */}
+          <button className="shadow-md shadow-[#A9A9A9] w-[299px] h-[299px] border-[#A9A9A9] border-[2px] rounded-[5px]">
+            <div className="flex justify-center mt-[45px]">
+              <img src={student} alt="Student" className="w-[78px] h-[78px]" />
             </div>
-        </div>
-    )
+            <div className="text-center font-bold text-[24px] mt-[25px]">
+              Student
+            </div>
+            <div className="text-center text-[16px] text-[#7A7A7A] mt-[23px] px-4">
+              descriptiondescrtiondes criptionde scription descriptio ndescriptiondescription
+            </div>
+          </button>
 
-}
-export default UserType;
+          {/* Teacher Button */}
+          <button className="shadow-md shadow-[#A9A9A9] w-[299px] h-[299px] border-[#A9A9A9] border-[2px] rounded-[5px]">
+            <div className="flex justify-center mt-[45px]">
+              <img src={teacher} alt="Teacher" className="w-[78px] h-[78px]" />
+            </div>
+            <div className="text-center font-bold text-[24px] mt-[25px]">
+              Teacher
+            </div>
+            <div className="text-center text-[16px] text-[#7A7A7A] mt-[23px] px-4">
+              descriptiondescrtiondes criptionde scription descriptio ndescriptiondescription
+            </div>
+          </button>
+
+          {/* Parent Button */}
+          <button className="shadow-md shadow-[#A9A9A9] w-[299px] h-[299px] border-[#A9A9A9] border-[2px] rounded-[5px]">
+            <div className="flex justify-center mt-[45px]">
+              <img src={parent} alt="Parent" className="w-[78px] h-[78px]" />
+            </div>
+            <div className="text-center font-bold text-[24px] mt-[25px]">
+              Parent
+            </div>
+            <div className="text-center text-[16px] text-[#7A7A7A] mt-[23px] px-4">
+              descriptiondescrtiondes criptionde scription descriptio ndescriptiondescription
+            </div>
+          </button>
+        </div>
+
+        {/* Footer Bar */}
+        <div className="w-full h-[495px] bg-[#021936] mt-[50px]"></div>
+      </div>
+    </div>
+  );
+};
+
+export default Usertype;
