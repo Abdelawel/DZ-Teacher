@@ -71,6 +71,7 @@ exports.postResource = async (req, res)=>{
 
 exports.updateResource = async (req,res) => {
   try {
+     
     const result = await db.query('update resource set resource_title = $1, resource_description = $2, pdf_link = $3, resource_module = $4, resource_price = $5 where resource_id = $6 returning *;', [
       req.body.resource_title,
       req.body.resource_description,
