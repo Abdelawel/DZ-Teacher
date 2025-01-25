@@ -8,7 +8,7 @@ const RequestCard = ({teachRqst, teachEmail}) => {
 
     const accept = async () => {
         try{
-        const reess = await axios.post("http://localhost:5000/admin/approveteacher" ,{username: teachRqst, email: teachEmail})
+        const reess = await axios.post(`${import.meta.env.VITE_SERVER_URL}/admin/approveteacher` ,{username: teachRqst, email: teachEmail})
         console.log(teachRqst)}
         catch(error){
           console.log(error.response.data.msg)

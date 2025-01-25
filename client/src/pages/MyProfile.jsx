@@ -47,7 +47,7 @@ const MyProfile = () => {
         if (!userId) return;
 
         
-        const response = await axios.get(`${server_url}/api/${userId}`); 
+        const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/${userId}`); 
 
         const Dat = response.data  
         // console.log(response)
@@ -100,7 +100,7 @@ const MyProfile = () => {
     };
   
     try {
-      const response = await axios.put(`${server_url}/api/${getUserId()}`, formData);
+      const response = await axios.put(`${import.meta.env.VITE_SERVER_URL}/api/${getUserId()}`, formData);
       alert('Profile updated successfully');
     } catch (err) {
       alert('Error updating profile');

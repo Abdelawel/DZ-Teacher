@@ -5,6 +5,7 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 // Load Stripe with your publishable key
 const stripePromise = loadStripe('pk_test_51Qkw1QApkunDrg7t9TMuCtdwXfGMP87ly0Og7iocB9qQhu4p58S1QdIikIKPfVVRvlp5iEzFcfdn9NAvobJvAO2K00yoFwjnHM');
+const server_url = import.meta.env.VITE_SERVER_URL
 
 // Checkout form component
 const CheckoutForm = () => {
@@ -39,7 +40,7 @@ const CheckoutForm = () => {
       console.log(paymentMethod.id)
     // Send payment method ID to the server to create a payment intent
     try {
-      const response = await axios.post('http://localhost:5000/api/create-payment-intent', {
+      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/create-payment-intent`, {
         paymentMethodId: paymentMethod.id,
       });
 

@@ -12,7 +12,7 @@ const Requests = () => {
     const handleacp = async () => {
             try{
 
-                    const requests = await axios.get("http://localhost:5000/api/inscriptions")
+                    const requests = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/inscriptions`)
                     setReq(requests.data)
                     console.log(requests)
             }catch{}

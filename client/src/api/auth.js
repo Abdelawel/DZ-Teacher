@@ -2,7 +2,7 @@ import axios from 'axios'
 axios.defaults.withCredentials = true // for cookies
 
 
-const server_url = import.meta.env.VITE_SERVER_DEV
+const server_url = import.meta.env.VITE_SERVER_URL
 
 
 
