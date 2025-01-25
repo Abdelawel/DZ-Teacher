@@ -1,23 +1,28 @@
-import React, { useState } from "react";
+import React from "react";
 import axios from "axios";
 import RequestCard from "./RequestCard";
+import { useState, useEffect,useContext } from "react";
 
 const Requests = () => {
 
 
-        const [title, setTitle] = useState("");
-        const [pricing, setPricing] = useState("");
-        const [description, setDescription] = useState("");
-        const [places, setPlaces] = useState("");
-        const [date, setDate] = useState("");
-        const [time, setTime] = useState("");
-        const [location, setLocation] = useState("");
-        const [level, setLevel] = useState("");
-        const [modulee, setModulee] = useState("");
+    const [req, setReq] = useState([])
         
-    
-        const [error, setError] = useState(null);
-        const [successMessage, setSuccessMessage] = useState(null);
+
+    const getAllRequests = async () => {
+            try{
+
+                    const requests = await axios.get("http://localhost:5000/")
+                    setReq(requests.data)
+            }catch{}
+            console.log(req)
+
+    };
+
+    useEffect(()=> {
+            getAllRequests() ;
+        }, [])
+
     
 
     return(
@@ -39,9 +44,14 @@ const Requests = () => {
 
                 </div>
                 <div className=" w-[931px] h-[766px] ml-[41px] mt-[49px] ">
-
-                <RequestCard/>
-                <RequestCard/>
+                
+                
+                { req.length >= 1 ? (req.map((teachRqst) => {
+                return (<RequestCard key={req._id} teachRqst={teachRqst.Username} teachEmail={teachRqst.email} />)
+                }
+                )) : <h2> ERROR !!!</h2>
+                
+                }
 
                 </div>
             

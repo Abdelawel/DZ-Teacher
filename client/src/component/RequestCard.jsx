@@ -3,22 +3,18 @@ import axios from "axios";
 import Cancel from "../assets/Cancel.png"
 import Vector from "../assets/Vector.png"
 
-const RequestCard = () => {
+const RequestCard = ({teachRqst, teachEmail}) => {
 
 
-        const [title, setTitle] = useState("");
-        const [pricing, setPricing] = useState("");
-        const [description, setDescription] = useState("");
-        const [places, setPlaces] = useState("");
-        const [date, setDate] = useState("");
-        const [time, setTime] = useState("");
-        const [location, setLocation] = useState("");
-        const [level, setLevel] = useState("");
-        const [modulee, setModulee] = useState("");
-        
+    const accept = async () => {
+        try{
+        const reess = await axios.post("http://localhost:5000/" ,{username: teachRqst, email: teachEmail})
+        console.log(teachRqst)}
+        catch(error){
+          console.log(error.response.data.msg)
+        }
     
-        const [error, setError] = useState(null);
-        const [successMessage, setSuccessMessage] = useState(null);
+    };
     
 
     return(
@@ -30,10 +26,10 @@ const RequestCard = () => {
             </div>
             <div className=" w-[677px] h-[141px] ">
                     <p className=" text-[20px] text-[#021936] font-bold mt-[46px] ml-[31px] ">
-                        Ziyad Alrahbani
+                        {teachRqst}
                     </p>
                     <p className=" text-[#ACACAC] text-[15px] ml-[31px] ">
-                        jari@ziad.syr
+                        {teachEmail}
                     </p>
             </div>
                         <button className=" shadow-md shadow-[#A9A9A9] rounded-[8px] border-[1px] border-[#525FE1] flex items-center px-3 w-[47px] h-[47px] bg-[#525FE1] ">
