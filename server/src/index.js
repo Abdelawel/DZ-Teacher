@@ -6,12 +6,17 @@ const authRoutes = require('./routes/auth')
 const cors = require('cors')
 const initializeDatabase = require('./setup')
 const serverless = require('serverless-http');
+// const paymentRoutes = require('./routes/paymentRoutes');
+
+
 
 
 // require('./middlewares/passport-middleware')
 const app = express()
 
 // const allowedOrigins = process.env.NODE_ENV === 'production' ? VERCEL_URL : CLIENT_URL;
+// app.use('/api/payment', paymentRoutes);
+
 
 const allowedOrigins = [
     'https://educatedz.vercel.app', // Add your frontend URL
@@ -31,7 +36,7 @@ const allowedOrigins = [
     credentials: true, // Allow cookies and authorization headers
   };
 
-// app.use(cors({ origin : allowedOrigins , credentials : true}))
+// app.use(cors({ origin : 'http://localhost:3000' , credentials : true}))
 app.use(cors(corsOptions))
 
 app.use(express.json())

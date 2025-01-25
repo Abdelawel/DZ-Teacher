@@ -2,12 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from 'react-redux'
 import { jwtDecode } from 'jwt-decode'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-
-
-const NewResource = () => {
-
+const ModifResource = () => {
 
     const navigate = useNavigate()
     const [title, setTitle] = useState("");
@@ -15,7 +12,8 @@ const NewResource = () => {
     const [description, setDescription] = useState("");
     const [moduleName, setModuleName] = useState(0);
     const [levelName, setLevelName] = useState(0);
-    const [pdf, setPdf] = useState("")
+    // const [oldPdf, setOldPdf] = useState("")
+    // const [newPdf, setNewPdf] = useState("")
     const [modules, setModules] = useState([])
     const [levels, setLevels] = useState([])
 
@@ -24,33 +22,43 @@ const NewResource = () => {
     const {token} = useSelector((state)=>state.auth)
     // console.log(jwtDecode(token).id)
 
+    const {id} = useParams()
+    console.log(id)
 
 
     const [error, setError] = useState("");
     const [successMessage, setSuccessMessage] = useState(null);
 
-
-    const handleSubmit = async (e) =>{
+    const handleEdit = async(e)=>{
         e.preventDefault()
         try {
             if(moduleName === 0 || levelName === 0){
-                setError("provide module and level plz")
+                setError("plz provide level and module")
             }
-            else{
-
-                const result = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/post-resource`,{
-                resource_title: title,
-                resource_description:description,
-                pdf_link : pdf,
-                resource_module : moduleName ,
-                resource_price : pricing,
-                uploaded_by:jwtDecode(token).id,
-                resource_status: 1 
-            })
-            navigate('/resources')
-            console.log(result)
-            setError("")
+            else
+            {
+                const result = await axios.put(`${import.meta.env.VITE_SERVER_URL}/api/update-resource/${id}`,{
+                    resource_title: title,
+                    resource_description: description,
+                    pdf_link: oldPdf,
+                    resource_module: moduleName,
+                    resource_price: pricing
+                })
+                navigate('/resources')
+                console.log(result)
+                setError("")
+            }
+        } catch (error) {
+            console.log(error)
         }
+    }
+
+    const handleDelete = async(e) =>{
+        e.preventDefault()
+        try {
+            const result = await axios.put(`${import.meta.env.VITE_SERVER_URL}/api/delete-resource/${id}`)
+            console.log(result)
+            navigate('/resources')
         } catch (error) {
             console.log(error)
         }
@@ -61,17 +69,24 @@ const NewResource = () => {
         const fetchData = async () =>{
             const responseModule = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/get-modules`)
             const responseLevels = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/get-levels`)
+            const responseTeacherModule = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/get-resource/${id}`)
+            console.log(responseTeacherModule)
+            setTitle(responseTeacherModule.data.data.resource.resource_title)
+            setDescription(responseTeacherModule.data.data.resource.resource_description)
+            setPricing(responseTeacherModule.data.data.resource.resource_price)
+            setModuleName(responseTeacherModule.data.data.resource.resource_module)
+            setOldPdf(responseTeacherModule.data.data.resource.pdf_link)
             setLevels(responseLevels.data.data.levels)
             setModules(responseModule.data.data.modules)
         }
     
       fetchData()
+    
+      
     }, [])
     
-
-    console.log(levelName)
     console.log(moduleName)
-    console.log(pdf)
+    console.log(levelName)
 
 
     return(
@@ -94,7 +109,7 @@ const NewResource = () => {
                     </div>
 
                 </div>
-                <form onSubmit={(e)=>handleSubmit(e)} className=" w-[1055px] h-[815px] border-black border-[1px] ">
+                <form onSubmit={(e)=>handleEdit(e)} className=" w-[1055px] h-[815px] border-black border-[1px] ">
                 
                     <div className=" flex justify-center items-center w-[984px] h-[104px] ml-[31px] mt-[63px]  ">
                         <div>
@@ -138,11 +153,12 @@ const NewResource = () => {
                             <input
                             
                             type="file"
-                            value={pdf}
-                            onChange={(e)=>setPdf(e.target.value)}
+                            value={newPdf}
+                            onChange={(e)=>{setOldPdf(e.target.value); setNewPdf(oldPdf)}}
                             id="thefile"
                             name="thefile"
-                            required
+                            
+                            // placeholder={oldPdf}
                             className="shadow-md shadow-[#A9A9A9] w-[474px] h-[55px] mt-[20px] pl-[20px] text-[#021936] placeholder-[#ACACAC] border-[2px] border-[#D8D8D8] rounded-[8px] focus:outline-none focus:ring focus:ring-[#021936] " >
 
                             </input>
@@ -203,6 +219,9 @@ const NewResource = () => {
                             </select>
                         </div>
                     </div>
+                    <div className=" m-5">
+                        <p className="text-gray-400">{oldPdf}</p>
+                    </div>
                     <div className=" w-[984px] h-[198px] ml-[31px] mt-[36px]  ">
                     <div>
                             <div className=" w-[110px] h-[24px] text-[22px] text-[#021936] font-bold ">
@@ -224,13 +243,16 @@ const NewResource = () => {
                         <button  className=" shadow-md shadow-[#A9A9A9] rounded-[8px] pl-[65px] text-[22px] font-bold ml-[572px] border-[1px] border-[#525FE1] flex items-center px-3 w-[200px] h-[60px] bg-[#EAEAEA] text-[#525FE1] ">
                             Cancel
                         </button>
+                        <button onClick={(e)=>{handleDelete(e)}} className=" shadow-md shadow-[#A9A9A9] rounded-[8px] pl-[65px] text-[22px] font-bold ml-[19px] border-[1px] border-[#AB1000] flex items-center px-3 w-[200px] h-[60px] bg-[#EAEAEA] text-[#E12411] ">
+                            Delete
+                        </button>
                         <button type="submit" className=" shadow-md shadow-[#A9A9A9] rounded-[8px] pl-[75px] text-[22px] font-bold ml-[19px] border-[1px] border-[#525FE1] flex items-center px-3 w-[200px] h-[60px] bg-[#525FE1] text-white ">
                             Save
                         </button>
                     </div>
-                        <p>{error}</p>
-
+                    <p>{error}</p>
                 </form>
+
                 </div>
             
             </div>
@@ -238,4 +260,4 @@ const NewResource = () => {
     )
 
 }
-export default NewResource;
+export default ModifResource;
