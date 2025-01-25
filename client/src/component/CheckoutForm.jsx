@@ -127,17 +127,9 @@ const CheckoutForm = () => {
         </button>
       </form>
       {/* Message */}
-      {message && (
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="text-center mt-4 text-sm text-red-500"
-        >
-          {message}
-        </motion.p>
-      )}
+      
     
-        </div>
+      </div>
   );
 };
 
