@@ -60,12 +60,8 @@ const CheckoutForm = () => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="max-w-lg mt-44 mx-auto p-6 bg-white shadow-lg rounded-lg"
-    >
+    <div>
+
       <h1 className="text-2xl font-bold mb-4 text-gray-800">Secure Payment</h1>
       <p className="text-sm text-gray-600 mb-6">Complete your payment below:</p>
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -140,7 +136,8 @@ const CheckoutForm = () => {
           {message}
         </motion.p>
       )}
-    </motion.div>
+    
+        </div>
   );
 };
 
