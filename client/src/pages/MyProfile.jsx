@@ -17,7 +17,7 @@ const MyProfile = () => {
   const [birthdayDay, setBirthdayDay] = useState("23");
   const [birthdayMonth, setBirthdayMonth] = useState("");
   const [birthdayYear, setBirthdayYear] = useState("2005");
-  const [profilePicture, setProfilePicture] = useState("https://via.placeholder.com/150");
+  const [profilePicture, setProfilePicture] = useState("");
   const [profile, setProfile] = useState({});
 
 
@@ -61,7 +61,7 @@ const MyProfile = () => {
         setBirthdayDay(Dat.day_of_birth|| "");
         setBirthdayMonth(Dat.month_of_birth || "");
         setBirthdayYear(Dat.year_of_birth || "2005");
-        setProfilePicture(Dat.users_image_link || "https://via.placeholder.com/150");
+        setProfilePicture(Dat.users_image_link ||"/public/image.svg");
       } catch (error) {
         console.error("Error fetching profile:", error);
       }
@@ -74,15 +74,16 @@ const MyProfile = () => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
+      console.log(reader)
       reader.onload = () => {
-        setProfilePicture(reader.result);
+        setProfilePicture("");
       };
       reader.readAsDataURL(file);
     }
   };
 
   const handleDeletePicture = () => {
-    setProfilePicture("https://via.placeholder.com/150");
+    setProfilePicture("");
   };
 
   const handleSave = async (e) => {
@@ -94,6 +95,7 @@ const MyProfile = () => {
       users_phone: phone,
       users_address: address,
       users_id: getUserId(),
+      users_image_link:profilePicture,
     };
   
     try {

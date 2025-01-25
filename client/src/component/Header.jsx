@@ -17,7 +17,7 @@ const Header = ({isLoggedIn}) => {
       await onLogout()
       localStorage.removeItem('token')
       dispatch(logout())
-      navigate('/')
+      navigate('/login')
     } catch (error) {
       console.log(error.response)
     }
