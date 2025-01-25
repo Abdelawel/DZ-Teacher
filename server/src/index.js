@@ -61,5 +61,5 @@ const appStart = () =>{
 appStart()
 
 
-module.exports = app;
+// module.exports = app;
 // module.exports.handler = serverless(app); // Required for Vercel

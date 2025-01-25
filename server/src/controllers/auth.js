@@ -19,6 +19,20 @@ exports.getResource = async (req, res)=>{
   }
 }
 
+exports.getOneResource = async (req,res)=>{
+  try {
+    const {rows} = await db.query('select * from resource where resource_id = $1', [req.params.id])
+    return res.status(200).json({
+      data : {
+        resource : rows[0]
+      }
+    })
+  } catch (error) {
+    return res.status(500).json({
+      error : error.message,
+  })
+  }
+}
 exports.postResource = async (req, res)=>{
   try {
     
@@ -27,10 +41,10 @@ exports.postResource = async (req, res)=>{
       return res.status(404).json({error : 'no such module exist'})
     }
 
-    const isTeacher = await db.query('select * from users where users_id = $1 and users_role = 2', [req.body.uploaded_by])
-    if(isTeacher.rows.length === 0 ){
-      return res.status(404).json({error : 'no such teacher exist'})
-    }
+    // const isTeacher = await db.query('select * from users where users_id = $1 and users_role IN (1,2)', [req.body.uploaded_by])
+    // if(isTeacher.rows.length === 0 ){
+    //   return res.status(404).json({error : 'no such teacher exist'})
+    // }
 
     
     const result = await db.query('insert into resource (resource_title, resource_description, pdf_link, resource_module, resource_price, uploaded_by, resource_status) values ($1,$2,$3,$4,$5,$6,$7) returning *', [
@@ -155,21 +169,36 @@ exports.getSession = async (req,res) => {
   }
 }
 
+exports.getOneSession = async (req,res)=>{
+  try {
+    const {rows} = await db.query(`select * from session where session_id = $1`, [req.params.id])
+    return res.status(200).json({
+      data : {
+        session : rows[0]
+      }
+    }) 
+  } catch (error) {
+    return res.status(500).json({
+      error : error.message,
+  })
+  }
+}
+
 exports.postSession = async (req,res) =>{
   try {
-    const isModule = await db.query('select * from module where module_id = $1', [req.body.resource_module])
+    const isModule = await db.query('select * from module where module_id = $1', [req.body.session_module])
     if(isModule.rows.length === 0 ){
       return res.status(404).json({error : 'no such module exist'})
     }
 
-    const isTeacher = await db.query('select * from users where users_id = $1 and users_role = 2', [req.body.uploaded_by])
-    if(isTeacher.rows.length === 0 ){
-      return res.status(404).json({error : 'no such teacher exist'})
-    }
+    // const isTeacher = await db.query('select * from users where users_id = $1 and users_role in(1,2)', [req.body.uploaded_by])
+    // if(isTeacher.rows.length === 0 ){
+    //   return res.status(404).json({error : 'no such teacher exist'})
+    // }
 
     const result = await db.query(`insert into session
-                                  (session_title, session_description, session_attempt, session_price, session_module, session_status, session_teacher, session_date, session_duration) 
-                                  values ($1, $2, $3, $4, $5, 1, $6, $7, $8, 0) returning *`, [
+                                  (session_title, session_description, session_attempt, session_price, session_module, session_status, session_teacher, session_date, session_duration, session_number_student) 
+                                  values ($1, $2, $3, $4, $5, 1, $6, $7, $8, $9) returning *`, [
                                   req.body.session_title, 
                                   req.body.session_description, 
                                   req.body.session_attempt,
@@ -177,7 +206,8 @@ exports.postSession = async (req,res) =>{
                                   req.body.session_module, 
                                   req.body.session_teacher, 
                                   req.body.session_date, 
-                                  req.body.session_duration
+                                  req.body.session_duration,
+                                  req.body.session_number_student
                                   ])
     return res.status(201).json({
       success: true,

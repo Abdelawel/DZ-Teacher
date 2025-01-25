@@ -48,11 +48,11 @@ create table module (
     module_level int references level(level_id) ON DELETE CASCADE
 );
 
--- insert into module (module_name, module_level) values('math',12 );
--- insert into module (module_name, module_level) values('arab',12 );
--- insert into module (module_name, module_level) values('english',12 );
--- insert into module (module_name, module_level) values('math',9 );
--- insert into module (module_name, module_level) values('arab',7 );
+insert into module (module_name, module_level) values('math',12 );
+insert into module (module_name, module_level) values('arab',12 );
+insert into module (module_name, module_level) values('english',12 );
+insert into module (module_name, module_level) values('math',9 );
+insert into module (module_name, module_level) values('arab',7 );
 
 
 create table resource(
@@ -98,7 +98,7 @@ create table session(
     session_status int references session_sts(status_id),
     session_teacher int references users(users_id),
     session_date TIMESTAMP NOT NULL,
-    session_duration INTERVAL NOT NULL,
+    session_duration int NOT NULL,
     session_number_student int not NULL CHECK(session_number_student <= session_attempt)
 );
 

@@ -2,17 +2,20 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from 'react-redux'
 import { jwtDecode } from 'jwt-decode'
+import { useNavigate } from "react-router-dom";
 
 
 
 const NewResource = () => {
 
+
+    const navigate = useNavigate()
     const [title, setTitle] = useState("");
     const [pricing, setPricing] = useState("");
     const [description, setDescription] = useState("");
     const [moduleName, setModuleName] = useState(0);
     const [levelName, setLevelName] = useState(0);
-    
+    const [pdf, setPdf] = useState("")
     const [modules, setModules] = useState([])
     const [levels, setLevels] = useState([])
 
@@ -27,9 +30,20 @@ const NewResource = () => {
     const [successMessage, setSuccessMessage] = useState(null);
 
 
-    const handleSubmit = async () =>{
+    const handleSubmit = async (e) =>{
+        e.preventDefault()
         try {
-            
+            const result = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/post-resource`,{
+                resource_title: title,
+                resource_description:description,
+                pdf_link : pdf,
+                resource_module : moduleName ,
+                resource_price : pricing,
+                uploaded_by:jwtDecode(token).id,
+                resource_status: 1 
+            })
+            navigate('/')
+            console.log(result)
         } catch (error) {
             console.log(error)
         }
@@ -50,6 +64,7 @@ const NewResource = () => {
 
     console.log(levelName)
     console.log(moduleName)
+    console.log(pdf)
 
 
     return(
@@ -72,7 +87,7 @@ const NewResource = () => {
                     </div>
 
                 </div>
-                <form className=" w-[1055px] h-[815px] border-black border-[1px] ">
+                <form onSubmit={(e)=>handleSubmit(e)} className=" w-[1055px] h-[815px] border-black border-[1px] ">
                 
                     <div className=" flex justify-center items-center w-[984px] h-[104px] ml-[31px] mt-[63px]  ">
                         <div>
@@ -116,11 +131,12 @@ const NewResource = () => {
                             <input
                             
                             type="file"
-                            
+                            value={pdf}
+                            onChange={(e)=>setPdf(e.target.value)}
                             id="thefile"
                             name="thefile"
-
-                             className="shadow-md shadow-[#A9A9A9] w-[474px] h-[55px] mt-[20px] pl-[20px] text-[#021936] placeholder-[#ACACAC] border-[2px] border-[#D8D8D8] rounded-[8px] focus:outline-none focus:ring focus:ring-[#021936] " >
+                            required
+                            className="shadow-md shadow-[#A9A9A9] w-[474px] h-[55px] mt-[20px] pl-[20px] text-[#021936] placeholder-[#ACACAC] border-[2px] border-[#D8D8D8] rounded-[8px] focus:outline-none focus:ring focus:ring-[#021936] " >
 
                             </input>
                         </div>
@@ -148,7 +164,7 @@ const NewResource = () => {
                                 <option>1 AS</option>
                                 <option>2 AS</option>
                                 <option>3 AS</option> */}
-                                <option>level :</option>
+                                <option>level:</option>
                                 {levels && levels.map((level)=>(
                                     <option key={level.level_id} value={level.level_id}>{level.level_name}</option>
                                 ))}
@@ -191,17 +207,17 @@ const NewResource = () => {
                             id="description"
                             value={description}
                             placeholder="Write a description ..."
-                             className="shadow-md shadow-[#A9A9A9] w-[984px] h-[155px] mt-[20px] pl-[20px] pb-[100px] text-[#021936] placeholder-[#ACACAC] border-[2px] border-[#D8D8D8] rounded-[8px] focus:outline-none focus:ring focus:ring-[#021936] "
+                            className="shadow-md shadow-[#A9A9A9] w-[984px] h-[155px] mt-[20px] pl-[20px] pb-[100px] text-[#021936] placeholder-[#ACACAC] border-[2px] border-[#D8D8D8] rounded-[8px] focus:outline-none focus:ring focus:ring-[#021936] "
                             onChange={(e) => setDescription(e.target.value)}
                             required >
                             </input>
                         </div>
                     </div>
                     <div className=" flex justify-center items-center mt-[60px] h-[60px] w-[1055px]  ">
-                        <button className=" shadow-md shadow-[#A9A9A9] rounded-[8px] pl-[65px] text-[22px] font-bold ml-[572px] border-[1px] border-[#525FE1] flex items-center px-3 w-[200px] h-[60px] bg-[#EAEAEA] text-[#525FE1] ">
+                        <button  className=" shadow-md shadow-[#A9A9A9] rounded-[8px] pl-[65px] text-[22px] font-bold ml-[572px] border-[1px] border-[#525FE1] flex items-center px-3 w-[200px] h-[60px] bg-[#EAEAEA] text-[#525FE1] ">
                             Cancel
                         </button>
-                        <button className=" shadow-md shadow-[#A9A9A9] rounded-[8px] pl-[75px] text-[22px] font-bold ml-[19px] border-[1px] border-[#525FE1] flex items-center px-3 w-[200px] h-[60px] bg-[#525FE1] text-white ">
+                        <button type="submit" className=" shadow-md shadow-[#A9A9A9] rounded-[8px] pl-[75px] text-[22px] font-bold ml-[19px] border-[1px] border-[#525FE1] flex items-center px-3 w-[200px] h-[60px] bg-[#525FE1] text-white ">
                             Save
                         </button>
                     </div>

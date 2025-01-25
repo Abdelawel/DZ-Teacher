@@ -12,6 +12,8 @@ import Homepage from   './pages/Homepage'
 import Login from './component/Login'
 import NewResource from './component/NewResource'
 import NewCourse from './component/NewCourse'
+import MyResource from './pages/MyResource'
+import CoursesPage from './pages/CoursePage'
 
 function App() {
   
@@ -61,7 +63,8 @@ function App() {
 
 
         <Route element={<ProtectedRoute value={3}/>}>    {/* for student */}
-          <Route path='/teacher' element={<Teacher/>}/>
+          <Route path='/my-resource' element={<MyResource />}/>
+          <Route path='/courses' element={<CoursesPage />}/>
         </Route>
         
         <Route path='/' element={<Homepage/>}/>
