@@ -3,6 +3,7 @@ import Header from "../component/Header";
 import Footer from "../component/Footer";
 import axios from "axios";
 import { jwtDecode } from 'jwt-decode'
+import Layout from "../component/Layout";
 const server_url = import.meta.env.VITE_SERVER_DEV
 
 
@@ -138,7 +139,8 @@ const MyProfile = () => {
 
   return (
     <div>
-      <Header />
+      {/* <Layout> */}
+      <Layout>
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-center mb-8">My Profile</h1>
         <div className="bg-white shadow-md rounded-lg p-6">
@@ -291,7 +293,8 @@ const MyProfile = () => {
           </form>
         </div>
       </div>
-      <Footer />
+      </Layout>
+   {/* <Layout/> */}
     </div>
   );
 };

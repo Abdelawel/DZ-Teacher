@@ -37,7 +37,7 @@ const Header = ({isLoggedIn}) => {
           <span className="text-black">ducate</span>
         </h1>
         <nav className="flex space-x-6">
-          <a href="#" className="text-gray-700 hover:text-blue-600">Home</a>
+          <Link to="/" className="text-gray-700 hover:text-blue-600">Home</Link>
           <a href="#" className="text-gray-700 hover:text-blue-600">About</a>
           <a href="#" className="text-gray-700 hover:text-blue-600">Courses</a>
           <a href="#" className="text-gray-700 hover:text-blue-600">Contact</a>
@@ -46,9 +46,9 @@ const Header = ({isLoggedIn}) => {
         {isLoggedIn ? (
           <>
             {/* // logged in view */}
-            <Link to="/MyProfile">
+            <Link to="/myprofile">
               <img
-                src="/path-to-profile-pic.jpg"
+                src="/image.svg"
                 alt="Profile"
                 className="w-10 h-10 rounded-full cursor-pointer"
               />

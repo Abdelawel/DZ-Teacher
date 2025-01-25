@@ -66,13 +66,13 @@ function App() {
         <Route element={<ProtectedRoute value={3}/>}>    {/* for student */}
           <Route path='/teacher' element={<Teacher/>}/>
           <Route path='/myprofile' element={<MyProfile/>}/>
-          <Route path='/user' element={<UserType/>}/>
           <Route path='/pay' element={<Stripe/>}/>
 
 
 
         </Route>
         
+          {/* <Route path='/login' element={<Login/>}/> */}
         <Route path='/' element={<Homepage/>}/>
         
         

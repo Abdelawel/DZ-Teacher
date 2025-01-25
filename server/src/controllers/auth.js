@@ -491,6 +491,15 @@ exports. createPaymentIntent = async (req, res) => {
     res.status(500).json({ error: error.message });  // Return the error message in the response
   }
 };
+exports .getAllInscriptions = async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM inscription");
+    res.status(200).json(result.rows); // Return the data as JSON
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Failed to retrieve inscriptions" });
+  }
+};
 
 // module.exports = { createPaymentIntent };
 
