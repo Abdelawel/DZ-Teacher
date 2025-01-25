@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import axios from 'axios';
-import { motion } from 'framer-motion';
+
 // Load Stripe with your publishable key
 const stripePromise = loadStripe('pk_test_51Qkw1QApkunDrg7t9TMuCtdwXfGMP87ly0Og7iocB9qQhu4p58S1QdIikIKPfVVRvlp5iEzFcfdn9NAvobJvAO2K00yoFwjnHM');
 const server_url = import.meta.env.VITE_SERVER_URL
@@ -127,17 +127,9 @@ const CheckoutForm = () => {
         </button>
       </form>
       {/* Message */}
-      {message && (
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="text-center mt-4 text-sm text-red-500"
-        >
-          {message}
-        </motion.p>
-      )}
+      
     
-        </div>
+      </div>
   );
 };
 
