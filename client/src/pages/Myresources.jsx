@@ -82,20 +82,6 @@ const ResourcesPage = () => {
           <h1 style={{ fontSize: "24px", fontWeight: "bold", margin: 0 }}>
             Your <span style={{ color: "#5A67D8" }}>Resources</span>
           </h1>
-          <button
-            style={{
-              backgroundColor: "#5A67D8",
-              color: "#FFF",
-              border: "none",
-              borderRadius: "5px",
-              padding: "10px 20px",
-              cursor: "pointer",
-              fontSize: "16px",
-              fontWeight: "bold",
-            }}
-          >
-            + Add Course
-          </button>
         </div>
 
         {/* Resource Cards */}
@@ -208,6 +194,23 @@ const ResourcesPage = () => {
               <p style={{ fontSize: "18px", color: "#444", fontWeight: "bold" }}>
                 Price: {selectedResource.price}
               </p>
+
+              {/* View Button */}
+              <button
+                style={{
+                  backgroundColor: "#5A67D8",
+                  color: "#FFF",
+                  padding: "10px 20px",
+                  borderRadius: "5px",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: "16px",
+                  fontWeight: "bold",
+                  marginTop: "20px",
+                }}
+              >
+                View Resource
+              </button>
 
               {/* Close Button */}
               <button

@@ -53,6 +53,8 @@ const Homepage = () => {
           {i18n.language === "en" ? "العربية" : "English"}
         </button>
       </div>
+      
+      
       <section className="bg-white py-12">
   <div className={`container mx-auto px-6 flex flex-col lg:flex-row items-center ${isArabic ? 'lg:flex-row-reverse' : ''}`}>
     <div className={`lg:w-1/2 lg:text-${isArabic ? 'right' : 'left'} text-center`}>

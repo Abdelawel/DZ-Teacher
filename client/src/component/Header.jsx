@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; 
+import { useTranslation } from 'react-i18next'; // Import useTranslation hook
 
 const Header = () => {
+  const { t, i18n } = useTranslation(); // Destructure t and i18n from useTranslation
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Initialize 
 
   const handleLogout = () => {  
@@ -12,6 +14,10 @@ const Header = () => {
     setIsLoggedIn(true); 
   };
 
+  const handleLanguageChange = (lang) => {
+    i18n.changeLanguage(lang); // Change the language
+  };
+
   return (
     <header className="bg-white shadow-sm">
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
@@ -20,14 +26,13 @@ const Header = () => {
           <span className="text-black">ducate</span>
         </h1>
         <nav className="flex space-x-6">
-          <a href="#" className="text-gray-700 hover:text-blue-600">Home</a>
-          <a href="#" className="text-gray-700 hover:text-blue-600">About</a>
-          <a href="#" className="text-gray-700 hover:text-blue-600">Courses</a>
-          <a href="#" className="text-gray-700 hover:text-blue-600">Contact</a>
+          <a href="#" className="text-gray-700 hover:text-blue-600">{t('home')}</a> {/* Use translation keys */}
+          <a href="#" className="text-gray-700 hover:text-blue-600">{t('about')}</a>
+          <a href="#" className="text-gray-700 hover:text-blue-600">{t('courses')}</a>
+          <a href="#" className="text-gray-700 hover:text-blue-600">{t('contact')}</a>
         </nav>
         <div className="flex space-x-4">
           {isLoggedIn ? (
-            // logged in view
             <Link to="/MyProfile">
               <img
                 src="/path-to-profile-pic.jpg"
@@ -36,19 +41,34 @@ const Header = () => {
               />
             </Link>
           ) : (
-            
             <>
               <button
                 className="px-4 py-2 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-100"
                 onClick={handleLogin}
               >
-                Sign In
+                {t('sign_in')} {/* Use translation key */}
               </button>
               <button className="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">
-                Register
+                {t('register')} {/* Use translation key */}
               </button>
             </>
           )}
+          
+          {/* Language Switcher */}
+          <div className="flex space-x-2">
+            <button
+              className="text-gray-700 hover:text-blue-600"
+              onClick={() => handleLanguageChange('en')}
+            >
+              EN
+            </button>
+            <button
+              className="text-gray-700 hover:text-blue-600"
+              onClick={() => handleLanguageChange('ar')}
+            >
+              AR
+            </button>
+          </div>
         </div>
       </div>
     </header>
