@@ -1,17 +1,74 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../component/Header";
 import Footer from "../component/Footer";
+import axios from "axios";
+import { jwtDecode } from 'jwt-decode'
+const server_url = import.meta.env.VITE_SERVER_DEV
+
+
+
 
 const MyProfile = () => {
-  const [firstName, setFirstName] = useState("Yousra");
+  const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("Lacheb");
   const [email, setEmail] = useState("example@estin.dz");
   const [phone, setPhone] = useState("0773651429");
   const [address, setAddress] = useState("Batna");
   const [birthdayDay, setBirthdayDay] = useState("23");
-  const [birthdayMonth, setBirthdayMonth] = useState("March");
+  const [birthdayMonth, setBirthdayMonth] = useState("");
   const [birthdayYear, setBirthdayYear] = useState("2005");
   const [profilePicture, setProfilePicture] = useState("https://via.placeholder.com/150");
+  const [profile, setProfile] = useState({});
+
+
+  const getUserId = () => {
+    const token = localStorage.getItem('token'); 
+  
+    if (!token) {
+      return null; 
+    }
+  
+    try {
+      const decoded = jwtDecode(token);
+      // console.log(decoded.id);
+      return decoded.id; // Adjust according to your token structure
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return null;
+    }
+  };
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const userId = getUserId(); 
+        // console.log(userId)
+        // Example userId
+        if (!userId) return;
+
+        
+        const response = await axios.get(`${server_url}/api/${userId}`); 
+
+        const Dat = response.data  
+        // console.log(response)
+        // console.log(Dat.users_firstname)
+        setFirstName(Dat.users_firstname || "");
+        
+
+        setLastName(Dat.users_name || "");
+        setEmail(Dat.users_email || "");
+        setPhone(Dat.users_phone || "");
+        setAddress(Dat.users_address || "");
+        setBirthdayDay(Dat.day_of_birth|| "");
+        setBirthdayMonth(Dat.month_of_birth || "");
+        setBirthdayYear(Dat.year_of_birth || "2005");
+        setProfilePicture(Dat.users_image_link || "https://via.placeholder.com/150");
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
+    };
+
+    fetchProfile();
+  }, []); // Empty dependency array to run once when component mounts
 
   const handlePictureChange = (e) => {
     const file = e.target.files[0];
@@ -28,19 +85,28 @@ const MyProfile = () => {
     setProfilePicture("https://via.placeholder.com/150");
   };
 
-  const handleSave = () => {
+  const handleSave = async (e) => {
+    e.preventDefault();
     const formData = {
-      firstName,
-      lastName,
-      email,
-      phone,
-      address,
-      birthday: { day: birthdayDay, month: birthdayMonth, year: birthdayYear },
-      profilePicture,
+      users_firstname: firstName,
+      users_name: lastName,
+      users_email: email,
+      users_phone: phone,
+      users_address: address,
+      users_id: getUserId(),
     };
+  
+    try {
+      const response = await axios.put(`${server_url}/api/${getUserId()}`, formData);
+      alert('Profile updated successfully');
+    } catch (err) {
+      alert('Error updating profile');
+      console.error(err);
+    }
+  
     console.log("Saved data:", formData);
-    alert("Profile saved successfully!");
   };
+  
 
   const handleCancel = () => {
     alert("Changes canceled");
@@ -65,6 +131,8 @@ const MyProfile = () => {
     { length: 100 },
     (_, i) => (new Date().getFullYear() - i).toString()
   );
+  
+
 
   return (
     <div>

@@ -14,6 +14,8 @@ const connectToPostgres = async(database) =>{
 }
 
 
+
+
 const createTables = async () =>{
     try {
         await db.query(`create table IF NOT EXISTS role (
@@ -213,7 +215,7 @@ const initializeDatabase = async () => {
         await createTables();
         await insertDatas();
     } catch (error) {
-        console.error(error)   
+        console.error(error)    
     }
 };
 

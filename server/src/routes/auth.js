@@ -1,4 +1,4 @@
-const { login, register, logout, postResource, getResource, deleteResource, updateResource, getSession, postSession, updateSession, deleteSession, registerTeacher, approveOrRejectTeacher, getModules, getLevels, getTable } = require('../controllers/auth')
+const { login, register, logout, postResource, getResource, deleteResource, updateResource, getSession, postSession, updateSession, deleteSession, registerTeacher, approveOrRejectTeacher, getModules, getLevels, getTable,getUserProfile,updateUserProfile,createPaymentIntent  } = require('../controllers/auth')
 
 const {Router} = require("express")
 const { loginValidation, registerValidation } = require('../validators/auth')
@@ -41,6 +41,12 @@ router.get('/logout', logout)
 router.post('/registerteacher' ,validationMiddleware,registerTeacher);
 
 router.put('/admin/approveteacher/:teacher_id',registerTeacher, approveOrRejectTeacher);
+
+router.get('/:id', getUserProfile);
+
+router.put('/:id', updateUserProfile);
+
+router.post('/create-payment-intent', createPaymentIntent);
 
 
 

@@ -3,6 +3,10 @@ const {hash} = require('bcryptjs')
 const {sign} = require('jsonwebtoken')
 const {SECRET} = require('../constants')
 
+
+const stripe = require('stripe')('sk_test_51Qkw1QApkunDrg7tTOE8pDHMJV4n3WJ3suD7X9kFwNtm9aBpIzWB4IDDR2pvsh8DEbRIe3ab5Lv25I95U0dzxqzr00Pyj24yfS'); // Example of a secret key
+
+
 ///////////////////////////////////////// Resource ///////////////////////////////////////////////////
 exports.getResource = async (req, res)=>{
   try {
@@ -306,24 +310,55 @@ exports.login = async (req, res) => {
 }
 
 exports.registerTeacher = async (req, res) => {
-  const { teacher_name, teacher_firstname, teacher_email, teacher_password, cv_link, teacher_date_of_birth, teacher_address, teacher_phone } = req.body;
+  const {
+    teacher_name,
+    teacher_firstname,
+    teacher_email,
+    teacher_password,
+    teacher_date_of_birth,
+    teacher_address = '',
+    teacher_phone = '',
+    cv_link
+  } = req.body.formData;
+  console.log(teacher_firstname)
 
   try {
-    
-      const hashedPassword = await bcrypt.hash(teacher_password, 10);
+    // Hash the password
+    const hashedPassword = await hash(teacher_password, 10)
 
-      const result = await db.query(
-          `INSERT INTO inscription (teacher_name, teacher_firstname, teacher_email, teacher_password, cv_link, teacher_date_of_birth, teacher_address, teacher_phone)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING teacher_id`,
-          [teacher_name, teacher_firstname, teacher_email, hashedPassword, cv_link, teacher_date_of_birth, teacher_address, teacher_phone]
-      );
+    // Insert the new teacher into the database with default teacher_status = 1
+    const result = await db.query(
+      `INSERT INTO inscription (
+        teacher_name, teacher_firstname, teacher_email, teacher_password, 
+        teacher_date_of_birth, teacher_address, teacher_phone, cv_link, teacher_status
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 1) RETURNING teacher_id`,
+      [
+        teacher_name,
+        teacher_firstname,
+        teacher_email,
+        hashedPassword,
+        teacher_date_of_birth,
+        teacher_address,
+        teacher_phone,
+        cv_link
+      ]
+    );
 
-      // res.status(201).json({ message: 'Registration request submitted', teacher_id: result.rows[0].teacher_id });
+    // Send success response
+    res.status(201).json({
+      message: 'Teacher registered successfully',
+      teacher_id: result.rows[0].teacher_id,
+    });
   } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Error submitting registration request' });
+    if (error.code === '23505') {
+      // Handle unique constraint violation (email already exists)
+      return res.status(409).json({ error: 'Email already exists' });
+    }
+    console.error('Error registering teacher:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
 
 exports.approveOrRejectTeacher = async (req, res) => {
   const { teacher_id } = req.params;
@@ -368,3 +403,94 @@ exports.approveOrRejectTeacher = async (req, res) => {
       res.status(500).json({ error: 'Error processing request' });
   }
 };
+exports.getUserProfile = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await db.query(
+      `SELECT *, 
+              TO_CHAR(users_date_of_birth, 'DD') AS day_of_birth, 
+              TO_CHAR(users_date_of_birth, 'FMMonth') AS month_of_birth, 
+              TO_CHAR(users_date_of_birth, 'YYYY') AS year_of_birth 
+       FROM users 
+       WHERE users_id = $1`, 
+      [id]
+    );
+    
+    
+    
+          if (result.rows.length === 0) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+      res.json(result.rows[0]);
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server error' });
+  }
+};
+exports.updateUserProfile = async (req, res) => {
+  try {
+    const { users_firstname, users_name, users_email, users_phone, users_address, users_id } = req.body;
+
+    if (!users_firstname || !users_name || !users_email || !users_phone || !users_address || !users_id) {
+      return res.status(400).json({ message: 'Missing required fields' });
+    }
+
+    const result = await db.query(
+      `UPDATE users SET 
+          users_firstname = $1,          
+          users_name = $2,                
+          users_email = $3,               
+          users_phone = $4,               
+          users_address = $5
+        WHERE users_id = $6 RETURNING *`,   
+      [
+        users_firstname, users_name, users_email, users_phone, users_address, users_id
+      ]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    return res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+exports. createPaymentIntent = async (req, res) => {
+  try {
+    const { paymentMethodId } = req.body;
+
+    if (!paymentMethodId) {
+      return res.status(400).json({ error: 'Payment method ID is required' });
+    }
+
+    console.log('Creating PaymentIntent with paymentMethodId:', paymentMethodId);  // Add this line to log the payment method ID
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: 2000,  // Example amount (in cents, $20.00)
+      currency: 'usd',
+      payment_method: paymentMethodId,
+      confirmation_method: 'manual',
+      confirm: true,
+      return_url:"http://localhost:3000/"
+    });
+    // const paymentSession = await PaymentSession.create({
+    //   session_key: sessionId,  // session_id from frontend
+    //   attempted_by: userId,  // user_id from frontend
+    //   payment_date: new Date(),
+    // });
+
+    console.log('PaymentIntent created:', paymentIntent);  // Log the payment intent response
+    res.send({
+      clientSecret: paymentIntent.client_secret,
+    });
+  } catch (error) {
+    console.error('Error creating PaymentIntent:', error);  // Log the error details
+    res.status(500).json({ error: error.message });  // Return the error message in the response
+  }
+};
+
+// module.exports = { createPaymentIntent };
+

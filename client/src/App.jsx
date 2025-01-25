@@ -12,7 +12,10 @@ import Homepage from   './pages/Homepage'
 import Login from './component/Login'
 import NewResource from './component/NewResource'
 import NewCourse from './component/NewCourse'
-
+import UserType from './component/UserType'
+import payement from './component/CheckoutForm'
+import CheckoutPage from './component/CheckoutForm'
+import Stripe from './component/CheckoutForm'
 function App() {
   
 
@@ -62,6 +65,12 @@ function App() {
 
         <Route element={<ProtectedRoute value={3}/>}>    {/* for student */}
           <Route path='/teacher' element={<Teacher/>}/>
+          <Route path='/myprofile' element={<MyProfile/>}/>
+          <Route path='/user' element={<UserType/>}/>
+          <Route path='/pay' element={<Stripe/>}/>
+
+
+
         </Route>
         
         <Route path='/' element={<Homepage/>}/>
