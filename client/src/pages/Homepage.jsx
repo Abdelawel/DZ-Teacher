@@ -44,7 +44,7 @@ const Homepage = () => {
     <Layout>
     <div className="bg-white min-h-screen">
       {/* Header */}
-      <Header />
+      
       
       {/* Language Toggle Button */}
       <div className="flex justify-end px-6 py-2 z-20">
