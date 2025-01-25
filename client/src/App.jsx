@@ -23,6 +23,10 @@ import ModifResource from './component/ModifResource'
 import Myresources from './pages/Myresources'
 import ModifCourse from './component/ModifCourse'
 
+import UserType from './component/UserType'
+import payement from './component/CheckoutForm'
+import CheckoutPage from './component/CheckoutForm'
+import Stripe from './component/CheckoutForm'
 function App() {
   
 
@@ -61,7 +65,7 @@ function App() {
         
         <Route element={<ProtectedRoute value={2}/>}>    {/* for teacher */}
           
-          <Route path='/home' element={<Home/>}/>
+          <Route path='/home' element={<Homepage/>}/>
           <Route path='/new-resource' element={<NewResource/>}/>
           <Route path='/new-course' element={<NewCourse/>}/>
           <Route path='/resources' element={<ResourcesTeacher />}/>
@@ -73,8 +77,15 @@ function App() {
         <Route element={<ProtectedRoute value={3}/>}>    {/* for student */}
           <Route path='/all-resource' element={<Myresources />}/>
           <Route path='/courses' element={<CoursesPage />}/>
+          
+          <Route path='/myprofile' element={<MyProfile/>}/>
+          <Route path='/pay' element={<Stripe/>}/>
+
+
+
         </Route>
         
+          {/* <Route path='/login' element={<Login/>}/> */}
         <Route path='/' element={<Homepage/>}/>
         
         
