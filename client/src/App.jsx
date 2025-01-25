@@ -6,6 +6,10 @@ import Home from './component/Home'
 import Teacher from './component/Teacher'
 import Register from './component/Register'
 import MyProfile from './pages/MyProfile'
+import ResourcesPage from './pages/Myresources';
+
+import './i18n'; 
+
 
 import RegisterTeacher from './component/RegisterTeacher'
 import Homepage from   './pages/Homepage'
@@ -74,6 +78,9 @@ function App() {
           <Route path='/login' element={<Login/>}/>
           <Route path='/myprofile' element={<MyProfile/>}/>
           <Route path='/register' element={<Register/>}/>
+          <Route path='/homepage' element={<Homepage/>}/>
+          
+          <Route path="/resources" element={<ResourcesPage />} />
           
           
           <Route path='/register-teacher' element={<RegisterTeacher/>}/>
